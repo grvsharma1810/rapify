@@ -3,11 +3,21 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter as Router } from 'react-router-dom';
+import mockServer from './server/mock-server'
+import { ToastProvider } from './shared-components/Toast/toast-context'
+import { DataProvider } from './data-context'
+
+mockServer();
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <DataProvider>
+    <ToastProvider>
+      <Router>
+        <App />
+      </Router>
+    </ToastProvider>
+  </DataProvider>,
   document.getElementById('root')
 );
 
