@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useRef } from 'react'
 import {useAuth} from '../../auth-context'
 
-const Navbar = () => {
+const Navbar = ({openSidebar}) => {
 
     const navRef = useRef(null);
     const navigate = useNavigate();
@@ -33,7 +33,10 @@ const Navbar = () => {
                                 <button className="btn-solid bg-red-600"
                                 onClick={() => logout()}>Log Out</button>
                             }
-                        </li>                        
+                        </li>
+                        <div class="toggle" onClick={() => openSidebar()}>
+                        <i className="fa fa-bars"></i>
+                        </div>                        
                     </ul>
                 </div>                
             </nav>

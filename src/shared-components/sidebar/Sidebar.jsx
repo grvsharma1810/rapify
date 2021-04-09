@@ -38,14 +38,11 @@ const Sidebar = ({ closeSidebar }, ref) => {
                         <p><i className="fa fa-history"></i> History</p>
                     </li>
                 </NavLink>
-            </ul>
-            {/* <Link to='/liked'>
-                <button
-                    className="btn-solid secondary"                
-                >Liked Videos</button>
-            </Link>                      
+            </ul>                        
             <button                
-                className="btn-solid secondary sidebar-close">X</button> */}
+                className="btn-solid secondary sidebar-close"
+                onClick={() => closeSidebar()}
+                >X</button>
         </div>
     )
 }

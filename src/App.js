@@ -1,6 +1,6 @@
 import './App.css';
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Routes, Route } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute'
 
@@ -48,14 +48,29 @@ function App() {
 
   const { isLoading } = useInitialLoading();
 
+  const sidebarRef = useRef(null)
+
+  const openSidebar = () => {
+    console.log(sidebarRef);
+    sidebarRef.current.style.left = '0'
+    sidebarRef.current.style.padding = '1rem'
+  }
+
+  const closeSidebar = () => {
+    sidebarRef.current.style.left = '-100%'
+    sidebarRef.current.style.padding = '0'
+  }
+
   return (
     <>
       {isLoading && <Spinner description="Loading Videos.." />}
       {
         !isLoading &&
         <div className="App">
-          <Navbar />
-          <Sidebar />
+          <Navbar openSidebar={openSidebar} />
+          <Sidebar
+            closeSidebar={closeSidebar}
+            ref={sidebarRef} />
           <div className="main-container">
             <Routes>
               <Route path="/" element={<Home />} />

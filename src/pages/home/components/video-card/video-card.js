@@ -1,15 +1,17 @@
 import './video-card.css'
+import { useNavigate } from 'react-router-dom'
 
-const getVideoUser = (video, allUsers) => {    
+const getVideoUser = (video, allUsers) => {
     return allUsers.find(user => parseInt(user.id) === parseInt(video.parentUser))
 }
 
 const VideoCard = ({ video, allUsers }) => {
 
-    const { thumbnailUrl, name } = video
+    const navigate = useNavigate();
+    const { thumbnailUrl, name } = video;
 
     return (
-        <div className="video-card">
+        <div className="video-card" onClick={() => navigate(`watch/${video.id}`)}>
             <img className="img" src={thumbnailUrl} alt="thumbnail" />
             <div className="card-body">
                 <div className="avatar-wrapper">

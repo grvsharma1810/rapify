@@ -4,6 +4,11 @@
     z-index: 1;
 }
 
+.navbar .toggle {
+    position: static !important;
+    display: block !important;
+}
+
 @media all and (max-width: 768px) {
     .navbar {
         flex-direction: row;
