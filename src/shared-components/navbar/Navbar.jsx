@@ -8,7 +8,7 @@ const Navbar = () => {
     const navRef = useRef(null);
     const navigate = useNavigate();
     const {loggedInUser} = useAuth();
-    console.log(loggedInUser);
+    console.log({loggedInUser});
     
     return (
         <>
@@ -19,8 +19,8 @@ const Navbar = () => {
                 <div className="nav-links" ref={navRef}>
                     <ul>     
                         <li className="avatar-wrapper mr-1">
-                            {!loggedInUser && <i class="fa fa-user-circle text-size-2"></i>}
-                            {loggedInUser && <img src={`${loggedInUser.userAvatarUrl}`} alt="User" class="avatar" />}
+                            {!loggedInUser && <i className="fa fa-user-circle text-size-2"></i>}
+                            {loggedInUser && <img src={`${loggedInUser.userAvatarUrl}`} alt="User" className="avatar" />}
                         </li>                   
                         <li>
                             <button 

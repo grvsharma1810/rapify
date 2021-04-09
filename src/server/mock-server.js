@@ -96,25 +96,25 @@ export default function mockServer() {
 
 
             /*---------PLAYLIST VIDEO ROUTES----------*/
-            this.get("/playlist-video", (schema) => {
+            this.get("/playlistVideo", (schema) => {
                 return schema.playlistVideoItems.all();
             });
-            this.get("/playlist-video/:id", (schema, request) => {
+            this.get("/playlistVideo/:id", (schema, request) => {
                 let id = request.params.id;
                 return schema.playlistVideoItems.find(id)
             });
-            this.post("/playlist-video", (schema, request) => {
+            this.post("/playlistVideo", (schema, request) => {
                 let attrs = JSON.parse(request.requestBody);
                 return schema.playlistVideoItems.create({
                     ...attrs,
                 });
             });
-            this.patch("/playlist-video/:id", (schema, request) => {
+            this.patch("/playlistVideo/:id", (schema, request) => {
                 let id = request.params.id
                 let attrs = JSON.parse(request.requestBody);
                 return schema.playlistVideoItems.find(id).update(attrs)
             });
-            this.delete("/playlist-video/:id", (schema, request) => {
+            this.delete("/playlistVideo/:id", (schema, request) => {
                 let id = request.params.id;
                 return schema.playlistVideoItems.find(id).destroy();
             });

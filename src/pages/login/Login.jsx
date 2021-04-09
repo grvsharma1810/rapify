@@ -20,26 +20,26 @@ const Login = () => {
 
     return (
         <div className="flex h-center">
-            <form class="form needs-validation" noValidate onSubmit={(event) => formSubmit(event)}>
-                <div class="form-row">
-                    <p class="form-field">
+            <form className="form needs-validation" noValidate onSubmit={(event) => formSubmit(event)}>
+                <div className="form-row">
+                    <p className="form-field">
                         <label htmlFor="email">Email</label>
                         <input id="email" type="email" placeholder="Email" name="email" required/>  
-                        <span class="error-msg">Please enter valid email</span>
-                        <span class="success-msg">Looks Good</span>
+                        <span className="error-msg">Please enter valid email</span>
+                        <span className="success-msg">Looks Good</span>
                     </p>                     
                 </div>   
-                <div class="form-row">              
-                    <p class="form-field">
+                <div className="form-row">              
+                    <p className="form-field">
                         <label htmlFor="password">Password</label>
-                        <input id="password" type="password" placeholder="Password" required/>
-                        <span class="error-msg">Please enter valid password</span>
-                        <span class="success-msg">Looks Good</span>
+                        <input id="password" type="password" placeholder="Password" autoComplete="true" required/>
+                        <span className="error-msg">Please enter valid password</span>
+                        <span className="success-msg">Looks Good</span>
                     </p>
                 </div>                           
                 <div>
-                    {!isLoading && <button class="btn-solid primary">Login</button>}
-                    {isLoading && <button class="btn-solid secondary">Validating Inputs...</button>}
+                    {!isLoading && <button className="btn-solid primary">Login</button>}
+                    {isLoading && <button className="btn-solid secondary">Validating Inputs...</button>}
                 </div>                                  
             </form>
         </div>

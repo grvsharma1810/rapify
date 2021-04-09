@@ -21,7 +21,8 @@ export const dataReducer = (state, { type, payload }) => {
             return {
                 playlist: payload.playlist,
                 liked: payload.liked,
-                history: payload.history
+                history: payload.history,
+                watchLater: payload.watchLater,
             }
 
         default:

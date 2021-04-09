@@ -5,11 +5,12 @@ const DataContext = createContext({})
 
 export const DataProvider = ({ children }) => {
     const [state, dispatch] = useReducer(dataReducer, {
-        users: [],        
+        users: [],
         allVideos: [],
         playlist: [],
         liked: [],
-        history: []
+        history: [],
+        watchLater: []
     })
     return (
         <DataContext.Provider value={{ dataState: state, dataDispatch: dispatch }}>

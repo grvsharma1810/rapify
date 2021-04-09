@@ -12,30 +12,30 @@ const Sidebar = ({ closeSidebar }, ref) => {
 
     return (
         <div className="sidebar" ref={ref}>
-            <ul class="list-group">         
+            <ul className="list-group">         
                 <NavLink to="/" end style={linkStyle} activeClassName="selected">
-                    <li class="list-item p-1">                        
-                        <p><i class="fa fa-home"></i> Home</p>                                                                
+                    <li className="list-item p-1">                        
+                        <p><i className="fa fa-home"></i> Home</p>                                                                
                     </li>                                
                 </NavLink>        
                 <NavLink to="/playlists" style={linkStyle} activeClassName="selected">
-                    <li class="list-item p-1">                                            
-                        <p><i class="fa fa-save"></i> Saved Playlists</p>                                                                
+                    <li className="list-item p-1">                                            
+                        <p><i className="fa fa-save"></i> Saved Playlists</p>                                                                
                     </li>
                 </NavLink>
                 <NavLink to="/watch-later" style={linkStyle} activeClassName="selected">
-                    <li class="list-item p-1">                    
-                        <p><i class="fa fa-clock-o"></i> Watch Later</p>                                        
+                    <li className="list-item p-1">                    
+                        <p><i className="fa fa-clock-o"></i> Watch Later</p>                                        
                     </li>
                 </NavLink>
                 <NavLink to="/liked" style={linkStyle} activeClassName="selected">
-                    <li class="list-item p-1">                    
-                        <p><i class="fa fa-thumbs-up"></i> Liked</p> 
+                    <li className="list-item p-1">                    
+                        <p><i className="fa fa-thumbs-up"></i> Liked</p> 
                     </li>
                 </NavLink>
                 <NavLink to="/history" style={linkStyle} activeClassName="selected">
-                    <li class="list-item p-1">                    
-                        <p><i class="fa fa-history"></i> History</p>
+                    <li className="list-item p-1">                    
+                        <p><i className="fa fa-history"></i> History</p>
                     </li>
                 </NavLink>
             </ul>
