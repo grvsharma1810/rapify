@@ -1,3 +1,20 @@
+.list-group {
+    background-color: inherit !important;
+}
+
+.list-item:hover {
+    background-color: white !important;
+}
+
+.selected {
+    font-weight: 700;
+    background-color: white !important;
+}
+
+.fa {
+    color: inherit;
+}
+
 .sidebar {
     position: fixed;
     width: 70%;
@@ -21,7 +38,6 @@
         display: block;
         width: 20%;
         left: 0;
-        padding: 1rem;
     }
 
     .sidebar-close {

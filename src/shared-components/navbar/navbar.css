@@ -3,3 +3,32 @@
     top: 0;
     z-index: 1;
 }
+
+@media all and (max-width: 768px) {
+    .navbar {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .navbar .nav-links {
+        width: auto;
+    }
+
+    .nav-links ul a {
+        width: auto;
+    }
+
+    .navbar .nav-links ul {
+        display: flex;
+    }
+
+    .navbar .toggle {
+        display: none;
+    }
+
+    .nav-links {
+        display: block;
+    }
+
+}

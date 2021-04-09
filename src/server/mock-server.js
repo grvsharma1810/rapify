@@ -1,7 +1,7 @@
 import { createServer, Model, RestSerializer } from "miragejs";
 import faker from "faker";
 
-import { dummyChannelData } from './channel-data';
+import { dummyUserData } from './user-data';
 import { dummyPlaylistData } from './playlist-data';
 import { dummyVideoData } from './video-data';
 
@@ -12,7 +12,7 @@ export default function mockServer() {
         },
 
         models: {
-            channelItem: Model,
+            userItem: Model,
             playlistItem: Model,
             videoItem: Model,
             playlistVideoItem: Model
@@ -22,50 +22,50 @@ export default function mockServer() {
             this.namespace = "api";
             this.timing = 1000;
 
-            /*---------CHANNEL ROUTES----------*/
-            this.get("/channel", (schema) => {
-                return schema.channelItems.all();
+            /*---------USER ROUTES----------*/
+            this.get("/user", (schema) => {
+                return schema.userItems.all();
             });
-            this.get("/channel/:id", (schema, request) => {
+            this.get("/user/:id", (schema, request) => {
                 let id = request.params.id;
-                return schema.channelItems.find(id)
+                return schema.userItems.find(id)
             });
-            this.post("/channel", (schema, request) => {
+            this.post("/user", (schema, request) => {
                 let attrs = JSON.parse(request.requestBody);
-                return schema.channelItems.create({
+                return schema.userItems.create({
                     ...attrs,
                 });
             });
-            this.patch("/channel/:id", (schema, request) => {
+            this.patch("/user/:id", (schema, request) => {
                 let id = request.params.id
                 let attrs = JSON.parse(request.requestBody);
-                return schema.channelItems.find(id).update(attrs)
+                return schema.userItems.find(id).update(attrs)
             });
-            this.delete("/channel/:id", (schema, request) => {
+            this.delete("/user/:id", (schema, request) => {
                 let id = request.params.id;
-                return schema.channelItems.find(id).destroy();
+                return schema.userItems.find(id).destroy();
             });
 
-            /*---------WATCH ROUTES----------*/
-            this.get("/watch", (schema) => {
+            /*---------VIDEO ROUTES----------*/
+            this.get("/video", (schema) => {
                 return schema.videoItems.all();
             });
-            this.get("/watch/:id", (schema, request) => {
+            this.get("/video/:id", (schema, request) => {
                 let id = request.params.id;
                 return schema.videoItems.find(id)
             });
-            this.post("/watch", (schema, request) => {
+            this.post("/video", (schema, request) => {
                 let attrs = JSON.parse(request.requestBody);
                 return schema.videoItems.create({
                     ...attrs,
                 });
             });
-            this.patch("/watch/:id", (schema, request) => {
+            this.patch("/video/:id", (schema, request) => {
                 let id = request.params.id
                 let attrs = JSON.parse(request.requestBody);
                 return schema.videoItems.find(id).update(attrs)
             });
-            this.delete("/watch/:id", (schema, request) => {
+            this.delete("/video/:id", (schema, request) => {
                 let id = request.params.id;
                 return schema.videoItems.find(id).destroy();
             });
@@ -121,9 +121,9 @@ export default function mockServer() {
         },
 
         seeds(server) {
-            dummyChannelData.forEach((channel) => {
-                server.create("channelItem", {
-                    ...channel
+            dummyUserData.forEach((user) => {
+                server.create("userItem", {
+                    ...user
                 });
             });
 

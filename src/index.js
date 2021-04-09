@@ -7,16 +7,19 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import mockServer from './server/mock-server'
 import { ToastProvider } from './shared-components/Toast/toast-context'
 import { DataProvider } from './data-context'
+import { AuthProvider } from './auth-context';
 
 mockServer();
 
 ReactDOM.render(
   <DataProvider>
-    <ToastProvider>
-      <Router>
-        <App />
-      </Router>
-    </ToastProvider>
+    <Router>
+      <AuthProvider>
+        <ToastProvider>
+          <App />
+        </ToastProvider>
+      </AuthProvider>
+    </Router>
   </DataProvider>,
   document.getElementById('root')
 );

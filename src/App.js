@@ -1,39 +1,78 @@
 import './App.css';
 
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route
-} from 'react-router-dom';
+import { useState, useEffect } from 'react'
+import { Routes, Route } from 'react-router-dom';
+import PrivateRoute from './PrivateRoute'
 
-import Navbar from './shared-components/navbar/navbar';
-import Sidebar from './shared-components/sidebar/sidebar'
-import History from './pages/history/history'
-import Home from './pages/home/home'
-import LikedVideos from './pages/liked-videos/liked-videos'
-import Playlists from './pages/playlists/playlists'
-import ChannelInfo from './pages/channel-info/channel-info'
-import VideoWatch from './pages/video-watch/video-watch'
-import PlaylistView from './pages/playlist-view/playlist-view'
+import Navbar from './shared-components/navbar/Navbar';
+import Sidebar from './shared-components/sidebar/Sidebar'
+import History from './pages/history/History'
+import Home from './pages/home/Home'
+import LikedVideos from './pages/liked-videos/LikedVideos'
+import Playlists from './pages/playlists/Playlists'
+import UserInfo from './pages/user-info/UserInfo'
+import VideoWatch from './pages/video-watch/VideoWatch'
+import PlaylistView from './pages/playlist-view/PlaylistView'
+import WatchLater from './pages/watch-later/WatchLater'
+import Login from './pages/login/Login'
+
+import { useData } from './data-context'
+import { useAxios } from './useAxios'
+
+import { SET_ALL_VIDEOS_DATA, SET_ALL_USERS_DATA } from './data-reducer'
+import Spinner from './shared-components/spinner/Spinner';
+
+const useInitialLoading = () => {
+  const { dataState, dataDispatch } = useData();
+  const [isLoading, setIsLoading] = useState(false);
+  const { getData: getVideoData } = useAxios('/api/video');
+  const { getData: getUserData } = useAxios('/api/user');
+
+
+  useEffect(() => {
+    if (dataState.allVideos.length === 0 && dataState.users.length === 0) {
+      (async function () {
+        setIsLoading(true);
+        const allVideos = await getVideoData();
+        dataDispatch({ type: SET_ALL_VIDEOS_DATA, payload: { allVideos } })
+        const users = await getUserData();
+        dataDispatch({ type: SET_ALL_USERS_DATA, payload: { users } })
+        setIsLoading(false);
+      })()
+    }
+  }, [])
+  return { isLoading };
+}
 
 function App() {
+
+  const { isLoading } = useInitialLoading();
+
   return (
-    <div className="App">
-      <Navbar />
-      <Sidebar />
-      <div className="main-container">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/watch/:videoId" element={<VideoWatch />} />
-          <Route path="/liked" element={<LikedVideos />} />
-          <Route path="/playlists" element={<Playlists />} />
-          <Route path="/playlists" element={<Playlists />} />
-          <Route path="/playlists/:playlistsId" element={<PlaylistView />} />
-          <Route path="/channel" element={<ChannelInfo />} />
-          <Route path="/history" element={<History />} />
-        </Routes>
-      </div>
-    </div>
+    <>
+      {isLoading && <Spinner />}
+      {
+        !isLoading &&
+        <div className="App">
+          <Navbar />
+          <Sidebar />
+          <div className="main-container">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/watch/:videoId" element={<VideoWatch />} />
+              <Route path="/login" element={<Login />} />
+
+              <PrivateRoute path="/liked" element={<LikedVideos />} />
+              <PrivateRoute path="/playlists" element={<Playlists />} />
+              <PrivateRoute path="/watch-later" element={<WatchLater />} />
+              <PrivateRoute path="/playlists/:playlistsId" element={<PlaylistView />} />
+              <PrivateRoute path="/user" element={<UserInfo />} />
+              <PrivateRoute path="/history" element={<History />} />
+            </Routes>
+          </div>
+        </div>
+      }
+    </>
   );
 }
 

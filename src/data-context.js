@@ -5,7 +5,7 @@ const DataContext = createContext({})
 
 export const DataProvider = ({ children }) => {
     const [state, dispatch] = useReducer(dataReducer, {
-        channel: {},
+        users: [],        
         allVideos: [],
         playlist: [],
         liked: [],
