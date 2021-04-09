@@ -7,7 +7,7 @@ const Navbar = () => {
 
     const navRef = useRef(null);
     const navigate = useNavigate();
-    const {loggedInUser} = useAuth();
+    const {loggedInUser,logout} = useAuth();
     console.log({loggedInUser});
     
     return (
@@ -23,11 +23,16 @@ const Navbar = () => {
                             {loggedInUser && <img src={`${loggedInUser.userAvatarUrl}`} alt="User" className="avatar" />}
                         </li>                   
                         <li>
-                            <button 
-                            className="btn-solid bg-yellow-600"
-                            onClick={() => navigate('/login')}>
-                                Log In
-                            </button>
+                            {
+                                !loggedInUser &&
+                                <button className="btn-solid bg-yellow-600"
+                                onClick={() => navigate('/login')}>Log In</button>                                
+                            }
+                            {
+                                loggedInUser &&
+                                <button className="btn-solid bg-red-600"
+                                onClick={() => logout()}>Log Out</button>
+                            }
                         </li>                        
                     </ul>
                 </div>                

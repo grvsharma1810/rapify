@@ -5,6 +5,10 @@
     padding-bottom: 0.75rem;
 }
 
+.video-card:hover {
+    background-color: var(--grey-200);
+}
+
 .card-body {
     display: flex;
     align-items: flex-start;

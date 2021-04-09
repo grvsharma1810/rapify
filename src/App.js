@@ -50,7 +50,7 @@ function App() {
 
   return (
     <>
-      {isLoading && <Spinner />}
+      {isLoading && <Spinner description="Loading Videos.." />}
       {
         !isLoading &&
         <div className="App">

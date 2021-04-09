@@ -52,8 +52,17 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const logout = () => {
+        setLoggedInUser(null);
+        dataDispatch({
+            type: SET_USER_DATA_LOADED_FROM_SERVER,
+            payload: { playlist: [], liked: [], history: [], watchLater: [] }
+        })
+        navigate("/");
+    }
+
     return (
-        <AuthContext.Provider value={{ loggedInUser, loginUserWithCredentials, isLoading }}>
+        <AuthContext.Provider value={{ loggedInUser, loginUserWithCredentials, logout, isLoading }}>
             {children}
         </AuthContext.Provider>
     )

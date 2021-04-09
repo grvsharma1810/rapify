@@ -1,18 +1,25 @@
 import './video-card.css'
 
-const VideoCard = ({ thumbnailUrl, name }) => {
+const getVideoUser = (video, allUsers) => {    
+    return allUsers.find(user => parseInt(user.id) === parseInt(video.parentUser))
+}
+
+const VideoCard = ({ video, allUsers }) => {
+
+    const { thumbnailUrl, name } = video
+
     return (
         <div className="video-card">
             <img className="img" src={thumbnailUrl} alt="thumbnail" />
             <div className="card-body">
                 <div className="avatar-wrapper">
-                    <img src="https://pbs.twimg.com/profile_images/1238749114348662784/p9hc5fuP_400x400.jpg" alt="Avatar" className="avatar" />
+                    <img src={`${getVideoUser(video, allUsers).userAvatarUrl}`} alt="Avatar" className="avatar" />
                 </div>
                 <div className="flex flex-column">
                     <h2 className="text-size-1">
                         {name}
                     </h2>
-                    <p>User Name</p>
+                    <p>{getVideoUser(video, allUsers).screenName}</p>
                 </div>
             </div>
         </div>
