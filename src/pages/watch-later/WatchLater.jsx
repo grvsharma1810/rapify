@@ -13,7 +13,7 @@ const WatchLater = () => {
             <div className="flex mt-1">
                 {
                     watchLater?.videos.length == 0 &&
-                    <p>Playlist is empty.</p>
+                    <p>No videos to watch later.</p>
                 }
                 {              
                     watchLater?.videos.length !== 0 &&

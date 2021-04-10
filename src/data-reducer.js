@@ -7,6 +7,7 @@ export const ADD_TO_WATCH_LATER = 'addToWatchLater'
 export const INCREASE_LIKE_COUNT = 'increaseLikeCount'
 export const DECREASE_LIKE_COUNT = 'decreaseLikeCount'
 export const REMOVE_FROM_LIKED = 'removeFromLiked'
+export const REMOVE_FROM_WATCH_LATER = 'removeFromWatchLater'
 
 export const dataReducer = (state, { type, payload }) => {
     console.log({ state });
@@ -92,7 +93,26 @@ export const dataReducer = (state, { type, payload }) => {
                 playlist: state.playlist.map(playlist => {
                     if (playlist.name === 'Liked' && playlist.type === 'default') {
                         return {
-                            ...playlist, 
+                            ...playlist,
+                            videos: playlist.videos.filter(playlistVideo => {
+                                if (parseInt(playlistVideo.parentVideo) === parseInt(payload.video.id)) {
+                                    return false;
+                                }
+                                return true;
+                            })
+                        }
+                    }
+                    return { ...playlist };
+                })
+            }
+
+        case REMOVE_FROM_WATCH_LATER:
+            return {
+                ...state,
+                playlist: state.playlist.map(playlist => {
+                    if (playlist.name === 'Watch Later' && playlist.type === 'default') {
+                        return {
+                            ...playlist,
                             videos: playlist.videos.filter(playlistVideo => {
                                 if (parseInt(playlistVideo.parentVideo) === parseInt(payload.video.id)) {
                                     return false;
