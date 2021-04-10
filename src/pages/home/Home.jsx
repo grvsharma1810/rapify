@@ -12,7 +12,7 @@ const Home = () => {
 
     return (
 
-        <div className="flex">                    
+        <div className="flex">
             {                        
                 allVideos.map((video) => {
                     return <VideoCard video={video} allUsers={dataState.users} key={video.id} />

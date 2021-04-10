@@ -1,0 +1,35 @@
+.video-card {
+    cursor: pointer;
+    width: 100%;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+
+.video-card:hover {
+    background-color: var(--grey-200);
+}
+
+.card-body .time{
+    font-size:0.75rem;
+}
+
+.card-body {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+}
+
+@media only screen and (min-width : 576px) {
+    .video-card {
+        width: 50%;
+        padding: 0.75rem;
+    }
+}
+
+@media only screen and (min-width : 768px) {
+    .video-card {
+        width: 33%;
+        padding: 1rem;
+    }
+}

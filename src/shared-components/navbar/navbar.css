@@ -5,8 +5,7 @@
 }
 
 .navbar .toggle {
-    position: static !important;
-    display: block !important;
+    display: none;
 }
 
 @media all and (max-width: 768px) {
@@ -28,12 +27,15 @@
         display: flex;
     }
 
-    .navbar .toggle {
-        display: none;
-    }
-
     .nav-links {
         display: block;
     }
 
+}
+
+@media all and (max-width: 576px) {
+    .navbar .toggle {
+        position: static !important;
+        display: block !important;
+    }
 }

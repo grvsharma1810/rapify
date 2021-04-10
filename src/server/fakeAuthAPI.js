@@ -5,6 +5,6 @@ export const fakeAuthAPI = (dummyUserData, email, password) => {
             if (user && user.password === password) {
                 resolve({ success: true, status: 200, body: { user } })
             } reject({ success: false, status: 401 })
-        }, 3000)
+        }, 1000)
     })
 }

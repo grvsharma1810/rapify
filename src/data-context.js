@@ -7,10 +7,7 @@ export const DataProvider = ({ children }) => {
     const [state, dispatch] = useReducer(dataReducer, {
         users: [],
         allVideos: [],
-        playlist: [],
-        liked: [],
-        history: [],
-        watchLater: []
+        playlist: [],        
     })
     return (
         <DataContext.Provider value={{ dataState: state, dataDispatch: dispatch }}>

@@ -34,8 +34,8 @@ const Navbar = ({openSidebar}) => {
                                 onClick={() => logout()}>Log Out</button>
                             }
                         </li>
-                        <div class="toggle" onClick={() => openSidebar()}>
-                        <i className="fa fa-bars"></i>
+                        <div className="toggle" onClick={() => openSidebar()}>
+                            <i className="fa fa-bars"></i>
                         </div>                        
                     </ul>
                 </div>                

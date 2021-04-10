@@ -1,10 +1,10 @@
 import { createContext, useState, useContext } from 'react';
-import { getDefaultPlaylistVideos, getSavedPlaylists } from './server/playlist-filters'
+import { getUserPlaylists } from './server/playlist-filters'
 import { useData } from './data-context'
 import { fakeAuthAPI } from './server/fakeAuthAPI'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useAxios } from './useAxios'
-import { SET_USER_DATA_LOADED_FROM_SERVER } from './data-reducer'
+import { SET_CURRENT_USER_DATA } from './data-reducer'
 
 const AuthContext = createContext(null);
 
@@ -28,13 +28,11 @@ export const AuthProvider = ({ children }) => {
                 const playlistData = await getPlaylistData();
                 const playlistVideoData = await getPlaylistVideoData();
                 try {
-                    const history = getDefaultPlaylistVideos(playlistData, playlistVideoData, user, 'History');
-                    const liked = getDefaultPlaylistVideos(playlistData, playlistVideoData, user, 'Liked');
-                    const watchLater = getDefaultPlaylistVideos(playlistData, playlistVideoData, user, 'Watch Later');
-                    const playlist = getSavedPlaylists(playlistData, playlistVideoData, user)
+                    const playlist = getUserPlaylists(playlistData, playlistVideoData, user)
+                    console.log("USER PLAYLISTS", playlist);
                     dataDispatch({
-                        type: SET_USER_DATA_LOADED_FROM_SERVER,
-                        payload: { playlist, liked, history, watchLater }
+                        type: SET_CURRENT_USER_DATA,
+                        payload: { playlist }
                     })
                 }
                 catch (error) {
@@ -55,7 +53,7 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
         setLoggedInUser(null);
         dataDispatch({
-            type: SET_USER_DATA_LOADED_FROM_SERVER,
+            type: SET_CURRENT_USER_DATA,
             payload: { playlist: [], liked: [], history: [], watchLater: [] }
         })
         navigate("/");
