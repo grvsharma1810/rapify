@@ -9,7 +9,7 @@ import Sidebar from './shared-components/sidebar/Sidebar'
 import History from './pages/history/History'
 import Home from './pages/home/Home'
 import LikedVideos from './pages/liked-videos/LikedVideos'
-import Playlists from './pages/playlists/Playlists'
+import SavedPlaylists from './pages/saved-playlists/SavedPlaylists'
 import UserInfo from './pages/user-info/UserInfo'
 import VideoWatch from './pages/video-watch/VideoWatch'
 import PlaylistView from './pages/playlist-view/PlaylistView'
@@ -78,7 +78,7 @@ function App() {
               <Route path="/login" element={<Login />} />
 
               <PrivateRoute path="/liked" element={<LikedVideos />} />
-              <PrivateRoute path="/playlists" element={<Playlists />} />
+              <PrivateRoute path="/playlists" element={<SavedPlaylists />} />
               <PrivateRoute path="/watch-later" element={<WatchLater />} />
               <PrivateRoute path="/playlists/:playlistsId" element={<PlaylistView />} />
               <PrivateRoute path="/user" element={<UserInfo />} />

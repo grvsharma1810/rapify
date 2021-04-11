@@ -8,6 +8,9 @@ export const INCREASE_LIKE_COUNT = 'increaseLikeCount'
 export const DECREASE_LIKE_COUNT = 'decreaseLikeCount'
 export const REMOVE_FROM_LIKED = 'removeFromLiked'
 export const REMOVE_FROM_WATCH_LATER = 'removeFromWatchLater'
+export const ADD_TO_PLAYLIST = 'addToPlaylist'
+export const ADD_TO_PLAYLIST_VIDEO = 'addToPlaylistVideo'
+export const REMOVE_FROM_PLAYLIST_VIDEO = 'removeFromPlaylistVideo'
 
 export const dataReducer = (state, { type, payload }) => {
     console.log({ state });
@@ -28,6 +31,42 @@ export const dataReducer = (state, { type, payload }) => {
             return {
                 ...state,
                 playlist: payload.playlist,
+            }
+
+        case ADD_TO_PLAYLIST:
+            return {
+                ...state,
+                playlist: state.playlist.concat(payload.newPlaylist)
+            }
+
+        case ADD_TO_PLAYLIST_VIDEO:
+            return {
+                ...state,
+                playlist: state.playlist.map(playlist => {
+                    if (playlist.name.toLowerCase() === payload.playlist.name.toLowerCase() && playlist.type === payload.playlist.type.toLowerCase()) {
+                        return { ...playlist, videos: playlist.videos.concat(payload.video) }
+                    }
+                    return { ...playlist };
+                })
+            }
+
+        case REMOVE_FROM_PLAYLIST_VIDEO:
+            return {
+                ...state,
+                playlist: state.playlist.map(playlist => {
+                    if (playlist.name.toLowerCase() === payload.playlist.name.toLowerCase() && playlist.type === payload.playlist.type.toLowerCase()) {
+                        return {
+                            ...playlist,
+                            videos: playlist.videos.filter(playlistVideo => {
+                                if (parseInt(playlistVideo.parentVideo) === parseInt(payload.video.id)) {
+                                    return false;
+                                }
+                                return true;
+                            })
+                        }
+                    }
+                    return { ...playlist };
+                })
             }
 
         case ADD_TO_HISTORY:

@@ -2,8 +2,10 @@ import './video-watch.css'
 import {useParams} from 'react-router-dom';
 import {useData} from '../../data-context'
 import {useAuth} from '../../auth-context'
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import {useAxios} from '../../useAxios'
+
+import PlaylistModal from './components/playlist-modal/PlaylistModal'
 import {ADD_TO_HISTORY,
     ADD_TO_LIKED,
     ADD_TO_WATCH_LATER,
@@ -42,6 +44,7 @@ const isVideoPresentInPlaylistVideos = (video,likedVideosPlaylist) => {
 
 const VideoWatch = () => {
     
+    const playlistModalRef = useRef(null);
     const [isLikedLoading,setIsLikedLoading] = useState(false)
     const [isWatchLaterLoading,setIsWatchLaterLoading] = useState(false)
     const {loggedInUser} = useAuth();
@@ -114,6 +117,11 @@ const VideoWatch = () => {
         setIsWatchLaterLoading(false);
     }
 
+    // Can be moved outside of component on refactoring
+    const togglePlaylistModal = () => {
+        playlistModalRef.current.classList.toggle('active')
+    }    
+
     return (
         <>
             <div className="video-container">            
@@ -134,7 +142,7 @@ const VideoWatch = () => {
                             onClick={() => alert("Please login to like the video.")} 
                             className="btn-solid secondary">                                                            
                             <div>
-                                <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                                <i className="fa fa-thumbs-o-up" aria-hidden="true"></i>
                                 <span> {video.likes}</span>
                             </div>                                                        
                         </button>
@@ -147,7 +155,7 @@ const VideoWatch = () => {
                             {
                                 !isLikedLoading &&
                                 <div>
-                                    <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                                    <i className="fa fa-thumbs-o-up" aria-hidden="true"></i>
                                     <span> {video.likes}</span>
                                 </div>
                             }
@@ -165,7 +173,7 @@ const VideoWatch = () => {
                             {
                                 !isLikedLoading &&
                                 <div>
-                                    <i class="fa fa-thumbs-o-up text-primary" aria-hidden="true"></i>
+                                    <i className="fa fa-thumbs-o-up text-primary" aria-hidden="true"></i>
                                     <span> {video.likes}</span>
                                 </div>
                             }
@@ -226,13 +234,25 @@ const VideoWatch = () => {
 
 
 
-                    
-
-                    <button className="btn-solid secondary">
-                        <i className="fa fa-save text-size-1"></i>
-                    </button>                    
+                    {
+                        !loggedInUser &&
+                        <button onClick={() => alert("Please login to save video to your playlist.")} className="btn-solid secondary">
+                            <i className="fa fa-save text-size-1"></i>
+                        </button>           
+                    }
+                    {
+                        loggedInUser &&
+                        <button onClick={() => togglePlaylistModal()} className="btn-solid secondary">
+                            <i className="fa fa-save text-size-1"></i>
+                        </button>                               
+                    }                    
                 </div>                
             </div>
+
+            <PlaylistModal 
+            togglePlaylistModal={togglePlaylistModal}
+            video={video}
+            ref={playlistModalRef}/>         
         </>
     )
 }
