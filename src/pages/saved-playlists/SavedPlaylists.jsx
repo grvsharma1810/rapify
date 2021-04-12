@@ -18,9 +18,9 @@ const SavedPlaylists = () => {
                 getUserCreatedPlaylists(playlist).map(playlist => {
                     return (
                         <SavedPlaylistCarousel key={playlist.keys} 
-                        playlist={playlist}
-                        allVideos={dataState.allVideos}
-                        allUsers={dataState.users}
+                            playlist={playlist}
+                            allVideos={dataState.allVideos}
+                            allUsers={dataState.users}
                         />
                     )
                 })

@@ -5,6 +5,7 @@ import {useAuth} from '../../auth-context'
 import { useEffect, useState, useRef } from 'react';
 import {useAxios} from '../../useAxios'
 
+import Spinner from '../../shared-components/spinner/Spinner'
 import PlaylistModal from './components/playlist-modal/PlaylistModal'
 import {ADD_TO_HISTORY,
     ADD_TO_LIKED,
@@ -49,13 +50,15 @@ const VideoWatch = () => {
     const [isWatchLaterLoading,setIsWatchLaterLoading] = useState(false)
     const {loggedInUser} = useAuth();
     const {videoId} = useParams();       
-    const {dataState,dataDispatch}  = useData();
+    const {dataState,dataDispatch,isInitialAppDataLoading,initialDataLoad}  = useData();
     const allVideos = dataState.allVideos;
     const video = getVideoDetails(allVideos,videoId)
 
     const {patchData:patchVideoData} = useAxios('/api/video')
     const {postData:postPlaylistVideoData,deleteData:deletePlaylistVideoData} = useAxios('/api/playlistVideo');
-    useEffect(() => {
+    
+    useEffect(() => {        
+        // initialDataLoad();          
         if(loggedInUser){
             (async () => {
                 const response = await postPlaylistVideoData({
@@ -123,14 +126,14 @@ const VideoWatch = () => {
     }    
 
     return (
-        <>
+        <>                                                                                                
             <div className="video-container">            
                 <iframe width="100%" height="300px" 
                 src={`https://www.youtube.com/embed/${video.youtubeId}`}
                 title="YouTube video player" 
                 frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                 allowFullScreen></iframe>
-            </div>
+            </div>                    
             <div className="flex space-btw v-center mt-1">
                 <div className="text-size-sm">
                     <p>View Count Coming Soon <br/> (Under Construction)</p>
@@ -252,7 +255,7 @@ const VideoWatch = () => {
             <PlaylistModal 
             togglePlaylistModal={togglePlaylistModal}
             video={video}
-            ref={playlistModalRef}/>         
+            ref={playlistModalRef}/>                     
         </>
     )
 }

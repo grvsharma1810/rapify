@@ -13,7 +13,7 @@ export const ADD_TO_PLAYLIST_VIDEO = 'addToPlaylistVideo'
 export const REMOVE_FROM_PLAYLIST_VIDEO = 'removeFromPlaylistVideo'
 
 export const dataReducer = (state, { type, payload }) => {
-    console.log({ state });
+    // console.log({ state });
     switch (type) {
         case SET_ALL_VIDEOS_DATA:
             return {

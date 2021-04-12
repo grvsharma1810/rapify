@@ -17,41 +17,17 @@ import WatchLater from './pages/watch-later/WatchLater'
 import Login from './pages/login/Login'
 
 import { useData } from './data-context'
-import { useAxios } from './useAxios'
 
-import { SET_ALL_VIDEOS_DATA, SET_ALL_USERS_DATA } from './data-reducer'
 import Spinner from './shared-components/spinner/Spinner';
 
-const useInitialLoading = () => {
-  const { dataState, dataDispatch } = useData();
-  const [isLoading, setIsLoading] = useState(false);
-  const { getData: getVideoData } = useAxios('/api/video');
-  const { getData: getUserData } = useAxios('/api/user');
-
-
-  useEffect(() => {
-    if (dataState.allVideos.length === 0 && dataState.users.length === 0) {
-      (async function () {
-        setIsLoading(true);
-        const allVideos = await getVideoData();
-        dataDispatch({ type: SET_ALL_VIDEOS_DATA, payload: { allVideos } })
-        const users = await getUserData();
-        dataDispatch({ type: SET_ALL_USERS_DATA, payload: { users } })
-        setIsLoading(false);
-      })()
-    }
-  }, [])
-  return { isLoading };
-}
 
 function App() {
 
-  const { isLoading } = useInitialLoading();
+  const { isInitialAppDataLoading } = useData();
 
   const sidebarRef = useRef(null)
 
   const openSidebar = () => {
-    console.log(sidebarRef);
     sidebarRef.current.style.left = '0'
     sidebarRef.current.style.padding = '1rem'
   }
@@ -63,9 +39,9 @@ function App() {
 
   return (
     <>
-      {isLoading && <Spinner description="Loading Videos.." />}
+      {isInitialAppDataLoading && <Spinner description="Loading Videos.." />}
       {
-        !isLoading &&
+        !isInitialAppDataLoading &&
         <div className="App">
           <Navbar openSidebar={openSidebar} />
           <Sidebar
