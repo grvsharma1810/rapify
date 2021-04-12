@@ -12,14 +12,14 @@ export const DataProvider = ({ children }) => {
     const { getData: getUserData } = useAxios('/api/user');
 
     const [state, dispatch] = useReducer(dataReducer, {
-        users: [],
+        allUsers: [],
         allVideos: [],
-        playlist: [],
+        allPlaylists: [],
     })
-    console.log({state});
+    console.log({ state });
 
     useEffect(() => {
-        (async function () {                        
+        (async function () {
             const allVideos = await getVideoData();
             dispatch({ type: SET_ALL_VIDEOS_DATA, payload: { allVideos } })
             const users = await getUserData();

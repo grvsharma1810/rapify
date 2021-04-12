@@ -1,6 +1,6 @@
 export const dummyVideoData = [
     {
-        id: 1,
+        id: "1",
         youtubeId: "nhshYevehZg",
         thumbnailUrl: "https://i.ytimg.com/vi/nhshYevehZg/hq720.jpg",
         name: "Purpose Rap",        
@@ -8,7 +8,7 @@ export const dummyVideoData = [
         dislikes: 0,
     },
     {
-        id: 2,
+        id: "2",
         youtubeId: "ijE2MMtzkHg",
         thumbnailUrl: "https://i.ytimg.com/vi/ijE2MMtzkHg/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBCfTA4YPO8rPisHVLDWFSuuehOUA",
         name: "Afsanay",        
@@ -16,7 +16,7 @@ export const dummyVideoData = [
         dislikes: 0,
     },
     {
-        id: 3,
+        id: "3",
         youtubeId: "jIQ0Dx-4peE",
         thumbnailUrl: "https://i.ytimg.com/vi/jIQ0Dx-4peE/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLD7NtX50eo_Z0H50m6dYmPcTRScEg",
         name: "Gumaan",        
@@ -24,7 +24,7 @@ export const dummyVideoData = [
         dislikes: 0,
     },
     {
-        id: 4,
+        id: "4",
         youtubeId: "aexf8V5LDhc",
         thumbnailUrl: "https://i.ytimg.com/vi/aexf8V5LDhc/hqdefault.jpg?sqp=-oaymwEcCOADEI4CSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLA8ApKtZFtLQA33vCR2ntw4cl7AGQ",
         name: "Villain",        
@@ -32,7 +32,7 @@ export const dummyVideoData = [
         dislikes: 0,
     },
     {
-        id: 5,
+        id: "5",
         youtubeId: "o907r6NsK9s",
         thumbnailUrl: "https://i.ytimg.com/vi/o907r6NsK9s/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLB682g_SSn0iCtgvyCMntZB5sxwbQ",
         name: "Saza-E-Maut",        
@@ -40,7 +40,7 @@ export const dummyVideoData = [
         dislikes: 0,
     },
     {
-        id: 6,
+        id: "6",
         youtubeId: "o907r6NsK9s",
         thumbnailUrl: "https://i.ytimg.com/vi/o907r6NsK9s/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLB682g_SSn0iCtgvyCMntZB5sxwbQ",
         name: "Saza-E-Maut",        
@@ -48,7 +48,7 @@ export const dummyVideoData = [
         dislikes: 0,
     },
     {
-        id: 7,
+        id: "7",
         youtubeId: "r5Ak4KY8-cs",
         thumbnailUrl: "https://i.ytimg.com/vi/r5Ak4KY8-cs/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDpoP8q0xtHUhr43RoNHh6x6__wgw",
         name: "INTRODUCTION",        
@@ -56,7 +56,7 @@ export const dummyVideoData = [
         dislikes: 0,
     },
     {
-        id: 8,
+        id: "8",
         youtubeId: "5-jJzODf5xo",
         thumbnailUrl: "https://i.ytimg.com/vi/5-jJzODf5xo/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCwBg04rMioKEYynZmH9VAwSkh4-g",
         name: "KARMA - BASIC BARS | FREEVERSE",        
@@ -64,7 +64,7 @@ export const dummyVideoData = [
         dislikes: 0,
     },
     {
-        id: 9,
+        id: "9",
         youtubeId: "DgdScH6nXs8",
         thumbnailUrl: "https://i.ytimg.com/vi/DgdScH6nXs8/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCbmn0p4CwNJHKdckq0AQwH8HZFxA",
         name: "KARMA - BASIC BARS 2 | FREEVERSE",        
@@ -72,7 +72,7 @@ export const dummyVideoData = [
         dislikes: 0,
     },
     {
-        id: 10,
+        id: "10",
         youtubeId: "erWlHBJLA20",
         thumbnailUrl: "https://i.ytimg.com/vi/erWlHBJLA20/hqdefault.jpg?sqp=-oaymwEcCOADEI4CSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDARvLx0RNoT08OApiYii1hKV51uQ",
         name: "Khana Badosh | JJ47 | JOKHAY | NABEEL AKBAR | TALHA ANJUM",        
