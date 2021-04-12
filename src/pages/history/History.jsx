@@ -19,7 +19,7 @@ const History = () => {
                 }
                 {              
                     history?.videos.length !==0 &&
-                    history.videos.map((historyVideo) => {
+                    history.videos.sort((a,b) => new Date(b.viewedOn) - new Date(a.viewedOn)).map((historyVideo) => {
                         return <HistoryCard historyVideo={historyVideo} key={historyVideo.id} />
                     })
                 }                

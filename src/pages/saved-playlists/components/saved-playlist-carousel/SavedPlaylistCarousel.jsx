@@ -2,7 +2,7 @@ import './saved-playlist-carousel.css';
 import CarouselVideoCard from '../carousel-video-card/CarouselVideoCard'
 
 const getVideoDetails = (allVideos,videoId) => {
-    return allVideos.find(video => parseInt(video.id) === parseInt(videoId))
+    return allVideos.find(video => video.id.toString() === videoId.toString())
 }
 
 const SavedPlaylistCarousel = ({playlist, allUsers, allVideos}) => {

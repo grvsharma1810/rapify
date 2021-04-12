@@ -17,7 +17,7 @@ import {ADD_TO_HISTORY,
 } from '../../data-reducer'
 
 const getVideoDetails = (allVideos,videoId) =>{
-    return allVideos.find(video => parseInt(video.id) === parseInt(videoId))
+    return allVideos.find(video => video.id.toString() === videoId.toString())
 }
 
 const getUserPlaylist = (allPlaylists,name) => {
@@ -30,12 +30,12 @@ const getUserPlaylistVideo = (allPlaylists,name,video) => {
     return allPlaylists.find(playlist =>{
         return playlist.name === name && playlist.type === 'default'
     }).videos
-    .find(playlistVideo => parseInt(playlistVideo.parentVideo) === parseInt(video.id))
+    .find(playlistVideo => playlistVideo.parentVideo.toString() === video.id.toString())
 }
 
 const isVideoPresentInPlaylistVideos = (video,likedVideosPlaylist) => {    
     if(likedVideosPlaylist.videos.find(playlistVideo => {
-        return parseInt(playlistVideo.parentVideo) === parseInt(video.id)
+        return playlistVideo.parentVideo.toString() === video.id.toString()
     })!==undefined){
         console.log("LIKED ALREADY",likedVideosPlaylist);
         return true;

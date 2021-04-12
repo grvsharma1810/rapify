@@ -3,12 +3,12 @@ import {useData} from '../../../../data-context'
 import {useNavigate} from 'react-router-dom'
 
 const getVideoUser = (video, allUsers) => {
-    return allUsers.find(user => parseInt(user.id) === parseInt(video.parentUser))
+    return allUsers.find(user => user.id.toString() === video.parentUser.toString())
 }
 
 const getVideo = (videoId, allVideos) => {
     return allVideos.find(video => {
-        return parseInt(video.id) === parseInt(videoId);
+        return video.id.toString() === videoId.toString();
     })
 }
 const WatchLaterVideoCard = ({ watchLaterVideo}) => {

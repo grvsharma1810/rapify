@@ -9,19 +9,19 @@ import {ADD_TO_PLAYLIST, ADD_TO_PLAYLIST_VIDEO,REMOVE_FROM_PLAYLIST_VIDEO} from 
 
 const getUserPlaylist = (allPlaylists,playlistId) => {
     return allPlaylists.find(playlist =>{
-        return parseInt(playlist.id) === parseInt(playlistId)
+        return playlist.id.toString() === playlistId.toString()
     })
 }
 
 const getUserPlaylistVideo = (allPlaylists,playlistId,video) => {
     return allPlaylists.find(playlist =>{
-        return parseInt(playlist.id) === parseInt(playlistId) && playlist.type === 'user-created'
+        return playlist.id.toString() === playlistId.toString() && playlist.type === 'user-created'
     }).videos
-    .find(playlistVideo => parseInt(playlistVideo.parentVideo) === parseInt(video.id))
+    .find(playlistVideo => playlistVideo.parentVideo.toString() === video.id.toString())
 }
 
 const isVideoAlreadyAddedToPlaylist = (playlist,video) => {    
-    return playlist.videos.filter(playlistVideo => parseInt(playlistVideo.parentVideo) === parseInt(video.id)).length > 0    
+    return playlist.videos.filter(playlistVideo => playlistVideo.parentVideo.toString() === video.id.toString()).length > 0    
 }
 
 const PlylistModal = ({togglePlaylistModal,video},ref) => {

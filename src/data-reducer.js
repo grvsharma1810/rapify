@@ -58,7 +58,7 @@ export const dataReducer = (state, { type, payload }) => {
                         return {
                             ...playlist,
                             videos: playlist.videos.filter(playlistVideo => {
-                                if (parseInt(playlistVideo.parentVideo) === parseInt(payload.video.id)) {
+                                if (playlistVideo.parentVideo.toString() === payload.video.id.toString()) {
                                     return false;
                                 }
                                 return true;
@@ -106,7 +106,7 @@ export const dataReducer = (state, { type, payload }) => {
             return {
                 ...state,
                 allVideos: state.allVideos.map(video => {
-                    if (parseInt(video.id) === parseInt(payload.video.id)) {
+                    if (video.id.toString() === payload.video.id.toString()) {
 
                         return { ...video, likes: video.likes + 1 }
                     }
@@ -118,7 +118,7 @@ export const dataReducer = (state, { type, payload }) => {
             return {
                 ...state,
                 allVideos: state.allVideos.map(video => {
-                    if (parseInt(video.id) === parseInt(payload.video.id)) {
+                    if (video.id.toString() === payload.video.id.toString()) {
 
                         return { ...video, likes: video.likes - 1 }
                     }
@@ -134,7 +134,7 @@ export const dataReducer = (state, { type, payload }) => {
                         return {
                             ...playlist,
                             videos: playlist.videos.filter(playlistVideo => {
-                                if (parseInt(playlistVideo.parentVideo) === parseInt(payload.video.id)) {
+                                if (playlistVideo.parentVideo.toString() === payload.video.id.toString()) {
                                     return false;
                                 }
                                 return true;
@@ -153,7 +153,7 @@ export const dataReducer = (state, { type, payload }) => {
                         return {
                             ...playlist,
                             videos: playlist.videos.filter(playlistVideo => {
-                                if (parseInt(playlistVideo.parentVideo) === parseInt(payload.video.id)) {
+                                if (playlistVideo.parentVideo.toString() === payload.video.id.toString()) {
                                     return false;
                                 }
                                 return true;

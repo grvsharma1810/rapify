@@ -2,7 +2,7 @@ import './video-card.css'
 import { useNavigate } from 'react-router-dom'
 
 const getVideoUser = (video, allUsers) => {
-    return allUsers.find(user => parseInt(user.id) === parseInt(video.parentUser))
+    return allUsers.find(user => user.id.toString() === video.parentUser.toString())
 }
 
 const VideoCard = ({ video, allUsers }) => {

@@ -1,7 +1,7 @@
 /* Server's Work */
 export const getUserPlaylists = (playlistData, playlistVideoData, user) => {
     return playlistData.filter(playlist => {
-        return parseInt(playlist.parentUser) === parseInt(user.id)
+        return playlist.parentUser.toString() === user.id.toString()
     }).map(savedPlaylist => {
         return {
             ...savedPlaylist,
