@@ -13,8 +13,13 @@ const SavedPlaylists = () => {
     const playlist = dataState.playlist
 
     return (
-        <div>            
+        <div>
             {
+                getUserCreatedPlaylists(playlist).length === 0 &&
+                <p>No saved playlist found.</p>
+            }            
+            {
+                getUserCreatedPlaylists(playlist).length !== 0 &&
                 getUserCreatedPlaylists(playlist).map(playlist => {
                     return (
                         <SavedPlaylistCarousel key={playlist.keys} 
