@@ -18,27 +18,36 @@ export const AuthProvider = ({ children }) => {
 
     async function signup(userCredentials) {
         setIsLoading(true)
-        const { user } = await postData(`/users`, userCredentials);
-        const { users } = await getData(`/users`);
-        const { playlists } = await getData(`/users/${user._id}/playlists`);
-        dataDispatch({ type: SET_ALL_USERS_DATA, payload: { users } })
-        setLoggedInUser(user);
-        dataDispatch({ type: SET_USER_PLAYLIST_DATA, payload: { playlists } })
+        const response = await postData(`/users`, userCredentials);
+        if (response.status === 400) {
+            alert(response.data.errorMessage)
+        } else {
+            const user = response.user;
+            const { users } = await getData(`/users`);
+            const { playlists } = await getData(`/users/${user._id}/playlists`);
+            dataDispatch({ type: SET_ALL_USERS_DATA, payload: { users } })
+            dataDispatch({ type: SET_USER_PLAYLIST_DATA, payload: { playlists } })
+            setLoggedInUser(user);
+            navigate(state?.from ? state.from : "/");
+        }
         setIsLoading(false);
-        navigate(state?.from ? state.from : "/");
     }
 
 
     async function login(email, password) {
         console.log({ email, password });
         setIsLoading(true);
-        const { user } = await postData("/login", { email, password });
-        console.log(user)
-        const { playlists } = await getData(`/users/${user._id}/playlists`);
-        setLoggedInUser(user);
-        dataDispatch({ type: SET_USER_PLAYLIST_DATA, payload: { playlists } })
+        try {
+            const { user } = await postData("/login", { email, password });
+            const { playlists } = await getData(`/users/${user._id}/playlists`);
+            console.log({ playlists });
+            dataDispatch({ type: SET_USER_PLAYLIST_DATA, payload: { playlists } })
+            setLoggedInUser(user);
+            navigate(state?.from ? state.from : "/");
+        } catch (error) {
+            alert("Please enter a valid email and password");
+        }
         setIsLoading(false);
-        navigate(state?.from ? state.from : "/");
     }
 
     const logout = () => {

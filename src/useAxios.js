@@ -12,14 +12,15 @@ export const useAxios = () => {
     } catch (error) {
       if (error.response) {
         switch (error.response.status) {
-          case 404: alert(`Error 404! ${error.response?.message}`);
-            return {};
-          case 500: alert(`Internal Server Error! ${error.response?.message}`);
-            return {};
+          case 404: alert(`Error 404! ${error.response.message}`);
+            return null;
+          case 500: alert(`Internal Server Error! ${error.response.message}`);
+            return null;
+          default: return error.response;
         }
       } else if (error.request) {
         alert("Please Check Your Internet Connection");
-        return {};
+        return null;
       } else {
         alert("Something went wrong");
       }
@@ -34,14 +35,15 @@ export const useAxios = () => {
     } catch (error) {
       if (error.response) {
         switch (error.response.status) {
-          case 404: alert(`Error 404! ${error.response?.message}`);
-            return {};
-          case 500: alert(`Internal Server Error! ${error.response?.message}`);
-            return {};
+          case 404: alert(`Error 404! ${error.response.message}`);
+            return null;
+          case 500: alert(`Internal Server Error! ${error.response.message}`);
+            return null;
+          default: return error.response;
         }
       } else if (error.request) {
         alert("Please Check Your Internet Connection");
-        return {};
+        return null;
       } else {
         alert("Something went wrong");
       }
@@ -51,19 +53,20 @@ export const useAxios = () => {
   async function deleteData(url) {
     console.log("delete");
     try {
-      const response = await axios.post(`${domainUrl}${url}`);
+      const response = await axios.delete(`${domainUrl}${url}`);
       return response.data.data;
     } catch (error) {
       if (error.response) {
         switch (error.response.status) {
-          case 404: alert(`Error 404! ${error.response?.message}`);
-            return {};
-          case 500: alert(`Internal Server Error! ${error.response?.message}`);
-            return {};
+          case 404: alert(`Error 404! ${error.response.message}`);
+            return null;
+          case 500: alert(`Internal Server Error! ${error.response.message}`);
+            return null;
+          default: return error.response;
         }
       } else if (error.request) {
         alert("Please Check Your Internet Connection");
-        return {};
+        return null;
       } else {
         alert("Something went wrong");
       }
