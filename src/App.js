@@ -15,10 +15,12 @@ import VideoWatch from './pages/video-watch/VideoWatch'
 import PlaylistView from './pages/playlist-view/PlaylistView'
 import WatchLater from './pages/watch-later/WatchLater'
 import Login from './pages/login/Login'
+import UploadVideo from './pages/upload-video/UploadVideo'
 
 import { useData } from './data-context'
 
 import Spinner from './shared-components/spinner/Spinner';
+import SignUp from './pages/sign-up/SignUp';
 
 
 function App() {
@@ -52,13 +54,14 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/watch/:videoId" element={<VideoWatch />} />
               <Route path="/login" element={<Login />} />
-
+              <Route path="/signup" element={<SignUp />} />
               <PrivateRoute path="/liked" element={<LikedVideos />} />
               <PrivateRoute path="/playlists" element={<SavedPlaylists />} />
               <PrivateRoute path="/watch-later" element={<WatchLater />} />
               <PrivateRoute path="/playlists/:playlistsId" element={<PlaylistView />} />
               <PrivateRoute path="/user" element={<UserInfo />} />
               <PrivateRoute path="/history" element={<History />} />
+              <PrivateRoute path="/upload-video" element={<UploadVideo />} />
             </Routes>
           </div>
         </div>

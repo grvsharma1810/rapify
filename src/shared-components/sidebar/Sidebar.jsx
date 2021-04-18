@@ -38,6 +38,11 @@ const Sidebar = ({ closeSidebar }, ref) => {
                         <p><i className="fa fa-history"></i> History</p>
                     </li>
                 </NavLink>
+                <NavLink to="/upload-video" style={linkStyle} activeClassName="selected">
+                    <li className="list-item p-1">                    
+                        <p><i className="fa fa-upload"></i> Upload Video</p>
+                    </li>
+                </NavLink>
             </ul>                        
             <button                
                 className="btn-solid secondary sidebar-close"

@@ -1,9 +1,11 @@
 import './login.css'
 import {useAuth} from '../../auth-context'
+import {useNavigate} from 'react-router-dom'
 
 const Login = () => {
     
-    const {loginUserWithCredentials,isLoading} = useAuth();        
+    const {login,isLoading} = useAuth();        
+    const navigate = useNavigate();
     
     const formSubmit = async(event) => {         
         event.preventDefault()
@@ -14,13 +16,13 @@ const Login = () => {
         else{
             const email = event.target[0].value;
             const password = event.target[1].value;
-            loginUserWithCredentials(email, password);            
+            login(email, password);            
         }        
     }
 
     return (
         <div className="flex h-center">
-            <form className="form needs-validation" noValidate onSubmit={(event) => formSubmit(event)}>
+            <form className="form needs-validation" noValidate onSubmit={(event) => formSubmit(event)}>                
                 <div className="form-row">
                     <p className="form-field">
                         <label htmlFor="email">Email</label>
@@ -40,8 +42,12 @@ const Login = () => {
                 <div>
                     {!isLoading && <button className="btn-solid primary">Login</button>}
                     {isLoading && <button className="btn-solid secondary">Validating Inputs...</button>}
-                </div>                                  
-            </form>
+                    <button       
+                        type="button"
+                        onClick={() => navigate('/signup')}      
+                        className="btn-link primary">New to rapify ? Create an account. </button> 
+                </div>                                 
+            </form>            
         </div>
     )
 }

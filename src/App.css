@@ -17,3 +17,9 @@
     width: 80%;
   }
 }
+
+.letter-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

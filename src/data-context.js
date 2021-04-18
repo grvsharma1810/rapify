@@ -7,22 +7,16 @@ const DataContext = createContext({})
 export const DataProvider = ({ children }) => {
 
     const [isInitialAppDataLoading, setIsInitialAppDataLoading] = useState(true);
-
-    const { getData: getVideoData } = useAxios('/api/video');
-    const { getData: getUserData } = useAxios('/api/user');
+    const { getData } = useAxios()
 
     const [state, dispatch] = useReducer(dataReducer, {
         allUsers: [],
-        allVideos: [],
-        allPlaylists: [],
+        userPlaylists: [],
     })
-    console.log({ state });
 
     useEffect(() => {
         (async function () {
-            const allVideos = await getVideoData();
-            dispatch({ type: SET_ALL_VIDEOS_DATA, payload: { allVideos } })
-            const users = await getUserData();
+            const { users } = await getData(`/users`);
             dispatch({ type: SET_ALL_USERS_DATA, payload: { users } })
             setIsInitialAppDataLoading(false);
         })()

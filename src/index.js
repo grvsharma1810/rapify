@@ -4,12 +4,9 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
-import mockServer from './server/mock-server'
 import { ToastProvider } from './shared-components/Toast/toast-context'
 import { DataProvider } from './data-context'
 import { AuthProvider } from './auth-context';
-
-mockServer();
 
 ReactDOM.render(
   <DataProvider>

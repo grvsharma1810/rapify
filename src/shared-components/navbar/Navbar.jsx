@@ -20,7 +20,8 @@ const Navbar = ({openSidebar}) => {
                     <ul>     
                         <li className="avatar-wrapper mr-1">
                             {!loggedInUser && <i className="fa fa-user-circle text-size-2"></i>}
-                            {loggedInUser && <img src={`${loggedInUser.userAvatarUrl}`} alt="User" className="avatar" />}
+                            {loggedInUser && loggedInUser.avatarUrl !== "" && <img src={`${loggedInUser.avatarUrl}`} alt="User" className="avatar" />}
+                            {loggedInUser && loggedInUser.avatarUrl === "" && <div className="avatar bg-yellow-600 letter-avatar">{loggedInUser.name[0].toUpperCase()}</div>}
                         </li>                   
                         <li>
                             {
