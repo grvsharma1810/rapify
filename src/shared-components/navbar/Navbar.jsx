@@ -1,4 +1,5 @@
 import './navbar.css'
+import Logo from './logo.png'
 import { useNavigate } from 'react-router-dom'
 import { useRef } from 'react'
 import {useAuth} from '../../providers/AuthProvider'
@@ -14,6 +15,7 @@ const Navbar = ({openSidebar}) => {
         <>
             <nav className="navbar bg-primary">
                 <div className="brand">
+                    <img class="brand-img mr-sm" src={Logo} alt="Rapify"/>
                     <div className="brand-title text-size-2">Rapify</div>
                 </div>
                 <div className="nav-links" ref={navRef}>

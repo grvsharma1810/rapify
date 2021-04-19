@@ -1,5 +1,5 @@
 import "./upload-video.css"
-import {useAxios} from '../../useAxios'
+import {useAxios} from '../../providers/AxiosProvider'
 import {useAuth} from '../../providers/AuthProvider'
 import { useState } from "react"
 import {useData} from '../../providers/DataProvider'

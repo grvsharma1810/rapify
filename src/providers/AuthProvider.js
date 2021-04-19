@@ -2,7 +2,7 @@ import { createContext, useState, useContext } from 'react';
 import { useData } from './DataProvider'
 import { SET_USER_PLAYLIST_DATA } from './data-reducer'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useAxios } from '../useAxios'
+import { useAxios } from './AxiosProvider'
 
 const AuthContext = createContext(null);
 

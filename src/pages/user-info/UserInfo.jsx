@@ -1,7 +1,7 @@
 import './user-info.css'
 import {useState} from 'react'
 import {useAuth} from '../../providers/AuthProvider'
-import {useAxios} from '../../useAxios';
+import {useAxios} from '../../providers/AxiosProvider';
 
 const UserInfo = () => {
 

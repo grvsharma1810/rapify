@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useData } from '../../providers/DataProvider'
 import { useAuth } from '../../providers/AuthProvider'
 import { useState, useEffect, useRef } from 'react';
-import { useAxios } from '../../useAxios';
+import { useAxios } from '../../providers/AxiosProvider';
 import {
     addToPlaylistVideos,
     removeFromPlaylistVideos,

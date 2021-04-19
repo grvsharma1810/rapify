@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useReducer, useState } from 'react'
 import { dataReducer, SET_ALL_VIDEOS_DATA } from './data-reducer'
-import { useAxios } from '../useAxios' 
+import { useAxios } from './AxiosProvider' 
 
 const DataContext = createContext({})
 

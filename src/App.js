@@ -44,7 +44,7 @@ function App() {
       {isInitialAppDataLoading && <Spinner description="Loading Videos.." />}
       {
         !isInitialAppDataLoading &&
-        <div className="App">
+        <div className="App">          
           <Navbar openSidebar={openSidebar} />
           <Sidebar
             closeSidebar={closeSidebar}

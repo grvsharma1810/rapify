@@ -3,7 +3,7 @@ import './playlist-modal.css'
 import './playlist-modal.css'
 import React, {useState} from 'react'
 import {useData} from '../../../../providers/DataProvider'
-import {useAxios} from '../../../../useAxios'
+import {useAxios} from '../../../../providers/AxiosProvider'
 import {useAuth} from '../../../../providers/AuthProvider'
 import { 
     isVideoPresentInPlaylistVideos, 
