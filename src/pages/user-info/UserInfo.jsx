@@ -91,8 +91,8 @@ const UserInfo = () => {
                         </p>                        
                     </div>                           
                     <div>
-                        {!isLoading && <button className="btn-solid primary">Save</button>}
-                        {isLoading && <button className="btn-solid secondary">Saving...</button>}                        
+                        {!isLoading && <button className="btn-solid primary" disabled={!isEditing}>Save</button>}
+                        {isLoading && <button className="btn-solid secondary" disabled={!isEditing}>Saving...</button>}                        
                     </div>                                                             
                 </form>                                                            
         </div>
