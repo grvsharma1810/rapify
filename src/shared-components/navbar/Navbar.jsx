@@ -14,7 +14,7 @@ const Navbar = ({openSidebar}) => {
     return (
         <>
             <nav className="navbar bg-primary">
-                <div className="brand">
+                <div className="brand" onClick={() => navigate("/")}>
                     <img class="brand-img mr-sm" src={Logo} alt="Rapify"/>
                     <div className="brand-title text-size-2">Rapify</div>
                 </div>
