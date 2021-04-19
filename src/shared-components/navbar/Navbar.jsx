@@ -1,7 +1,7 @@
 import './navbar.css'
 import { useNavigate } from 'react-router-dom'
 import { useRef } from 'react'
-import {useAuth} from '../../auth-context'
+import {useAuth} from '../../providers/AuthProvider'
 
 const Navbar = ({openSidebar}) => {
 

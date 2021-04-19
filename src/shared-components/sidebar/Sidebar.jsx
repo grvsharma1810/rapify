@@ -18,6 +18,11 @@ const Sidebar = ({ closeSidebar }, ref) => {
                         <p><i className="fa fa-home"></i> Home</p>                                                                
                     </li>                                
                 </NavLink>        
+                <NavLink to="/account" end style={linkStyle} activeClassName="selected">
+                    <li className="list-item p-1">                        
+                        <p><i className="fa fa-home"></i> Account</p>                                                                
+                    </li>                                
+                </NavLink>        
                 <NavLink to="/playlists" style={linkStyle} activeClassName="selected">
                     <li className="list-item p-1">                                            
                         <p><i className="fa fa-save"></i> Saved Playlists</p>                                                                

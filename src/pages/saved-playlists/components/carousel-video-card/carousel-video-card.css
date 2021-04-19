@@ -1,6 +1,6 @@
 .carousel-video-card {
     cursor: pointer;
-    width: 300px!important;
+    width: 225px!important;
     padding: 0.75rem;    
 }
 
@@ -17,12 +17,12 @@
 
 @media only screen and (min-width : 576px) {
     .carousel-video-card {
-        width: 350px!important;        
+        width: 275px!important;        
     }
 }
 
 @media only screen and (min-width : 768px) {
     .carousel-video-card {
-        width: 400px!important;        
+        width: 325px!important;        
     }
 }

@@ -2,85 +2,72 @@ import './playlist-modal.css'
 
 import './playlist-modal.css'
 import React, {useState} from 'react'
-import {useData} from '../../../../data-context'
+import {useData} from '../../../../providers/DataProvider'
 import {useAxios} from '../../../../useAxios'
-import {useAuth} from '../../../../auth-context'
-import {ADD_TO_PLAYLIST, ADD_TO_PLAYLIST_VIDEO,REMOVE_FROM_PLAYLIST_VIDEO} from '../../../../data-reducer'
+import {useAuth} from '../../../../providers/AuthProvider'
+import { 
+    isVideoPresentInPlaylistVideos, 
+    addToPlaylistVideos, 
+    removeFromPlaylistVideos, 
+    getUserPlaylistById,
+    getUserPlaylistVideo
+} from '../../../../utils'
+import {ADD_TO_PLAYLIST} from '../../../../providers/data-reducer'
 
-const getUserPlaylist = (allPlaylists,playlistId) => {
-    return allPlaylists.find(playlist =>{
-        return playlist.id.toString() === playlistId.toString()
-    })
-}
-
-const getUserPlaylistVideo = (allPlaylists,playlistId,video) => {
-    return allPlaylists.find(playlist =>{
-        return playlist.id.toString() === playlistId.toString() && playlist.type === 'user-created'
-    }).videos
-    .find(playlistVideo => playlistVideo.parentVideo.toString() === video.id.toString())
-}
-
-const isVideoAlreadyAddedToPlaylist = (playlist,video) => {    
-    return playlist.videos.filter(playlistVideo => playlistVideo.parentVideo.toString() === video.id.toString()).length > 0    
-}
 
 const PlylistModal = ({togglePlaylistModal,video},ref) => {
 
     const {loggedInUser} = useAuth();
     const {dataState,dataDispatch} = useData();
     const [isAddingToPlaylist,setIsAddingToPlaylist] = useState(false);
-    const [isAddingToPlaylistVideo,setisAddingToPlaylistVideo] = useState(false);
-    const {postData:postPlaylistData} = useAxios('/api/playlist');
-    const {postData:postPlaylistVideoData,deleteData:deletePlaylistVideoData} = useAxios('/api/playlistVideo');
-    console.log(dataState.playlist);
+    const [isAddingToPlaylistVideo,setisAddingToPlaylistVideo] = useState(false);    
+    const {postData,deleteData} = useAxios();
+    console.log({dataState});
 
     const addNewPlaylist = async(event) => {                
         event.preventDefault()
         event.stopPropagation()
-        if(dataState.playlist.filter(playlist => playlist.name.toLowerCase() === event.target[0].value.toLowerCase()).length > 0){
+        if(dataState.userPlaylists.filter(playlist => {
+            return playlist.name.toLowerCase() === event.target[0].value.toLowerCase()
+                && playlist.type === 'user-created'
+        }).length > 0){
             alert("Playlist Already Exists. Please check the name.")
             return;
         }
         setIsAddingToPlaylist(true);
-        const response = await postPlaylistData({
-            parentUser : loggedInUser.id,
+        const response = await postData(`/users/${loggedInUser._id}/playlists`,{            
             name : event.target[0].value,
             type:'user-created'
         })
         event.target[0].value="";
-        dataDispatch({type:ADD_TO_PLAYLIST,payload:{newPlaylist:{...response,videos:[]}}})
+        dataDispatch({type:ADD_TO_PLAYLIST,payload:{playlist:response.playlist}})
         setIsAddingToPlaylist(false);        
     }
 
     const addOrRemovePlaylistVideo = async(event) => {
         const playlistId = event.target.value;
-        console.log(getUserPlaylist(dataState.playlist,playlistId),event.target.checked);
+        const playlist = getUserPlaylistById(dataState.userPlaylists,playlistId);
         if(event.target.checked){
             console.log("ADD")
             setisAddingToPlaylistVideo(true);
-            const response = await postPlaylistVideoData({
-                parentVideo : video.id,
-                parentPlaylist: getUserPlaylist(dataState.playlist,playlistId).id
-            })
-            dataDispatch({
-                type:ADD_TO_PLAYLIST_VIDEO,
-                payload:{
-                    playlist:getUserPlaylist(dataState.playlist,playlistId),
-                    video:response
-                }})
+            await addToPlaylistVideos(
+                loggedInUser, 
+                video, 
+                playlist,
+                dataDispatch, postData);
             setisAddingToPlaylistVideo(false);
         }
         
         else{
             console.log("REMOVE")
             setisAddingToPlaylistVideo(true);
-            await deletePlaylistVideoData(getUserPlaylistVideo(dataState.playlist,playlistId,video)) 
-            dataDispatch({
-                type:REMOVE_FROM_PLAYLIST_VIDEO,
-                payload:{
-                    playlist:getUserPlaylist(dataState.playlist,playlistId),
-                    video:video
-                }})
+            await removeFromPlaylistVideos(
+                loggedInUser,
+                getUserPlaylistVideo(video,playlist),
+                playlist,
+                dataDispatch,
+                deleteData
+            )
             setisAddingToPlaylistVideo(false);
         }
     }
@@ -92,22 +79,22 @@ const PlylistModal = ({togglePlaylistModal,video},ref) => {
                     <div className="flex flex-column flex-gap-1">
                         <h3 className="text-size-2">Add To Playlist</h3>
                         {
-                            dataState.playlist
+                            dataState.userPlaylists
                             .filter(playlist => playlist.type === 'user-created')
                             .map(playlist => {
                                 return (
                                     
-                                        <div className="form-row" key={playlist.id}>                                            
+                                        <div className="form-row" key={playlist._id}>                                            
                                                 <p className="form-check">
                                                     <input
-                                                    onChange={(event) => addOrRemovePlaylistVideo(event)} 
-                                                    type="checkbox"                 
-                                                    checked={isVideoAlreadyAddedToPlaylist(playlist,video)}                                    
-                                                    id={playlist.id} 
-                                                    name={playlist.name} 
-                                                    value={playlist.id}
-                                                    disabled={isAddingToPlaylistVideo}/> 
-                                                    <label htmlFor={playlist.id}> {playlist.name}</label>
+                                                        onChange={(event) => addOrRemovePlaylistVideo(event)} 
+                                                        type="checkbox"                 
+                                                        checked={isVideoPresentInPlaylistVideos(video,playlist)}  
+                                                        id={playlist._id} 
+                                                        name={playlist.name} 
+                                                        value={playlist._id}
+                                                        disabled={isAddingToPlaylistVideo}/> 
+                                                    <label htmlFor={playlist._id}> {playlist.name}</label>
                                                 </p>                                                        
                                         </div>                                                                        
                                 )

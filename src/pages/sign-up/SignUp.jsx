@@ -1,5 +1,5 @@
 import './sign-up.css'
-import {useAuth} from '../../auth-context'
+import {useAuth} from '../../providers/AuthProvider'
 import {useNavigate} from 'react-router-dom'
 
 const SignUp = () => {

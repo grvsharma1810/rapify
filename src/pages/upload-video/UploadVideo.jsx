@@ -1,15 +1,15 @@
 import "./upload-video.css"
 import {useAxios} from '../../useAxios'
-import {useAuth} from '../../auth-context'
+import {useAuth} from '../../providers/AuthProvider'
 import { useState } from "react"
-import {useData} from '../../data-context'
-import {ADD_USER_VIDEO} from '../../data-reducer'
+import {useData} from '../../providers/DataProvider'
+import {ADD_USER_VIDEO} from '../../providers/data-reducer'
 
 const UploadVideo = () => {
     
     const [isLoading,setIsLoading] = useState(false);
     const {postData} = useAxios();
-    const {loggedInUser} = useAuth();
+    const {loggedInUser,addToLoggedInUserVideos} = useAuth();
     const {dataDispatch} = useData();
     
     const formSubmit = async(event) => {         
@@ -24,11 +24,22 @@ const UploadVideo = () => {
             const thumbnailUrl = event.target[2].value;
             const likes = 0;
             const dislikes = 0;
+            const views = 0;
             setIsLoading(true);
             const {video} = await postData(`/users/${loggedInUser._id}/videos`,{
-                name,youtubeUrl,thumbnailUrl,likes,dislikes
+                name,youtubeUrl,thumbnailUrl,likes,dislikes,views
             })
-            dataDispatch({type:ADD_USER_VIDEO,payload:{user:loggedInUser,video}})
+            dataDispatch({type:ADD_USER_VIDEO, payload:{
+                video : {
+                    ...video,
+                    user: { 
+                        name: loggedInUser.name, 
+                        avatarUrl: loggedInUser.avatarUrl,
+                        _id: loggedInUser._id,                        
+                    }
+                }
+            }})
+            addToLoggedInUserVideos(video._id);
             event.target[0].value = "";
             event.target[1].value = "";
             event.target[2].value = "";

@@ -22,6 +22,7 @@ export const ToastProvider = ({ children }) => {
                 clearInterval(interval);
             }
         }
+        // eslint-disable-next-line
     }, [dismissTime, list]);
 
 

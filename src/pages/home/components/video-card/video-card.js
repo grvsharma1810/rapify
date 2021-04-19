@@ -1,10 +1,7 @@
 import './video-card.css'
 import { useNavigate } from 'react-router-dom'
+import { getRandomColor } from '../../../../utils'
 
-const getRandomColor = () => {
-    const color = ['red', 'green', 'yellow']
-    return color[Math.floor(Math.random() * 3)];
-}
 
 const VideoCard = ({ video, user }) => {
 

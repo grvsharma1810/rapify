@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useReducer, useState } from 'react'
-import { dataReducer, SET_ALL_VIDEOS_DATA, SET_ALL_USERS_DATA } from './data-reducer'
-import { useAxios } from './useAxios' 
+import { dataReducer, SET_ALL_VIDEOS_DATA } from './data-reducer'
+import { useAxios } from '../useAxios' 
 
 const DataContext = createContext({})
 
@@ -10,16 +10,17 @@ export const DataProvider = ({ children }) => {
     const { getData } = useAxios()
 
     const [state, dispatch] = useReducer(dataReducer, {
-        allUsers: [],
+        allVideos: [],
         userPlaylists: [],
     })
 
     useEffect(() => {
         (async function () {
-            const { users } = await getData(`/users`);
-            dispatch({ type: SET_ALL_USERS_DATA, payload: { users } })
+            const { videos } = await getData(`/videos`);
+            dispatch({ type: SET_ALL_VIDEOS_DATA, payload: { videos } })
             setIsInitialAppDataLoading(false);
         })()
+        // eslint-disable-next-line
     }, [])
 
     return (

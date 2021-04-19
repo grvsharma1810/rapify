@@ -5,8 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ToastProvider } from './shared-components/Toast/toast-context'
-import { DataProvider } from './data-context'
-import { AuthProvider } from './auth-context';
+import { DataProvider } from './providers/DataProvider'
+import { AuthProvider } from './providers/AuthProvider';
 
 ReactDOM.render(
   <DataProvider>

@@ -1,14 +1,14 @@
 import { createContext, useState, useContext } from 'react';
-import { useData } from './data-context'
-import { SET_ALL_USERS_DATA, SET_USER_PLAYLIST_DATA } from './data-reducer'
+import { useData } from './DataProvider'
+import { SET_USER_PLAYLIST_DATA } from './data-reducer'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useAxios } from './useAxios'
+import { useAxios } from '../useAxios'
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
 
-    const { getData, postData, deleteData } = useAxios()
+    const { getData, postData } = useAxios()
     const [loggedInUser, setLoggedInUser] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const { dataDispatch } = useData();
@@ -23,9 +23,7 @@ export const AuthProvider = ({ children }) => {
             alert(response.data.errorMessage)
         } else {
             const user = response.user;
-            const { users } = await getData(`/users`);
             const { playlists } = await getData(`/users/${user._id}/playlists`);
-            dataDispatch({ type: SET_ALL_USERS_DATA, payload: { users } })
             dataDispatch({ type: SET_USER_PLAYLIST_DATA, payload: { playlists } })
             setLoggedInUser(user);
             navigate(state?.from ? state.from : "/");
@@ -52,15 +50,28 @@ export const AuthProvider = ({ children }) => {
 
     const logout = () => {
         setLoggedInUser(null);
-        // dataDispatch({
-        //     type: SET_CURRENT_USER_DATA,
-        //     payload: { playlist: [], liked: [], history: [], watchLater: [] }
-        // })
+        dataDispatch({
+            type: SET_USER_PLAYLIST_DATA,
+            payload: { playlists: [] }
+        })
         navigate("/");
     }
 
+    const addToLoggedInUserVideos = (videoId) => {
+        setLoggedInUser(loggedInUser => {
+            return {
+                ...loggedInUser,
+                videos: loggedInUser.videos.concat(videoId)
+            }
+        })
+    }
+
+    const updateUserData = (updatedUser) => {
+        setLoggedInUser(updatedUser);
+    }
+
     return (
-        <AuthContext.Provider value={{ loggedInUser, login, logout, signup, isLoading }}>
+        <AuthContext.Provider value={{ loggedInUser, login, logout, signup, isLoading, addToLoggedInUserVideos, updateUserData }}>
             {children}
         </AuthContext.Provider>
     )

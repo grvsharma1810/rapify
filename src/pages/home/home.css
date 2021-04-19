@@ -1,0 +1,10 @@
+.banner {
+    padding: 1rem;
+    background-color: #1F2937;
+    color: white;
+}
+
+.my-name {
+    text-align: right;
+    font-style: italic;
+}

@@ -1,27 +1,24 @@
 import './carousel-video-card.css'
 import { useNavigate } from 'react-router-dom'
+import {getRandomColor} from '../../../../utils'
 
-const getVideoUser = (video, allUsers) => {
-    return allUsers.find(user => user.id.toString() === video.parentUser.toString())
-}
-
-const CarouselVideoCard = ({ video, allUsers }) => {
+const CarouselVideoCard = ({ video }) => {
 
     const navigate = useNavigate();
-    const { thumbnailUrl, name } = video;
 
     return (
-        <div className="carousel-video-card" onClick={() => navigate(`watch/${video.id}`)}>
-            <img className="img" src={thumbnailUrl} alt="thumbnail" />
+        <div className="carousel-video-card" onClick={() => navigate(`/watch/${video._id}`)}>
+            <img className="img" src={video.thumbnailUrl} alt="thumbnail" />
             <div className="card-body">
                 <div className="avatar-wrapper">
-                    <img src={`${getVideoUser(video, allUsers).userAvatarUrl}`} alt="Avatar" className="avatar" />
+                    {video.user.avatarUrl === "" && <div className={`avatar bg-${getRandomColor()}-600 letter-avatar`}>{video.user.name[0].toUpperCase()}</div>}
+                    {video.user.avatarUrl !== "" && <img src={`${video.user.avatarUrl}`} alt="Avatar" className="avatar" />}
                 </div>
                 <div className="flex flex-column">
                     <h2 className="text-size-1">
-                        {name}
+                        {video.name}
                     </h2>
-                    <p>{getVideoUser(video, allUsers).screenName}</p>
+                    <p>{video.user.name}</p>
                 </div>
             </div>
         </div>

@@ -1,36 +1,30 @@
 import './watch-later-video-card.css'
-import {useData} from '../../../../data-context'
+import {useData} from '../../../../providers/DataProvider'
 import {useNavigate} from 'react-router-dom'
+import { getVideoDetails, getRandomColor } from '../../../../utils';
 
-const getVideoUser = (video, allUsers) => {
-    return allUsers.find(user => user.id.toString() === video.parentUser.toString())
-}
 
-const getVideo = (videoId, allVideos) => {
-    return allVideos.find(video => {
-        return video.id.toString() === videoId.toString();
-    })
-}
 const WatchLaterVideoCard = ({ watchLaterVideo}) => {
 
     const navigate = useNavigate();
     const {dataState} = useData();
-    const video = getVideo(watchLaterVideo.parentVideo,dataState.allVideos);    
+    const video = getVideoDetails(dataState.allVideos,watchLaterVideo.videoId);    
 
     return (
-        <div className="video-card" onClick={() => navigate(`/watch/${video.id}`)}>
+        <div className="video-card" onClick={() => navigate(`/watch/${video._id}`)}>
             <img className="img" src={video.thumbnailUrl} alt="thumbnail" />
             <div className="card-body">
                 <div className="avatar-wrapper">
-                    <img src={`${getVideoUser(video, dataState.users).userAvatarUrl}`} alt="Avatar" className="avatar" />
+                    {video.user.avatarUrl === "" && <div className={`avatar bg-${getRandomColor()}-600 letter-avatar`}>{video.user.name[0].toUpperCase()}</div>}
+                    {video.user.avatarUrl !== "" && <img src={`${video.user.avatarUrl}`} alt="Avatar" className="avatar" />}
                 </div>
                 <div className="flex flex-column">
                     <h2 className="text-size-1">
                         {video.name}
                     </h2>
-                    <p>{getVideoUser(video, dataState.users).screenName}</p>                    
+                    <p>{video.user.name}</p>                    
                 </div>                
-            </div>            
+            </div>                 
         </div>
     )
 }

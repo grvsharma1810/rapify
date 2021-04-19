@@ -1,8 +1,8 @@
 import './App.css';
 
-import { useState, useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { Routes, Route } from 'react-router-dom';
-import PrivateRoute from './PrivateRoute'
+import PrivateRoute from './shared-components/PrivateRoute'
 
 import Navbar from './shared-components/navbar/Navbar';
 import Sidebar from './shared-components/sidebar/Sidebar'
@@ -17,7 +17,7 @@ import WatchLater from './pages/watch-later/WatchLater'
 import Login from './pages/login/Login'
 import UploadVideo from './pages/upload-video/UploadVideo'
 
-import { useData } from './data-context'
+import { useData } from './providers/DataProvider'
 
 import Spinner from './shared-components/spinner/Spinner';
 import SignUp from './pages/sign-up/SignUp';
@@ -62,6 +62,7 @@ function App() {
               <PrivateRoute path="/user" element={<UserInfo />} />
               <PrivateRoute path="/history" element={<History />} />
               <PrivateRoute path="/upload-video" element={<UploadVideo />} />
+              <PrivateRoute path="/account" element={<UserInfo />} />
             </Routes>
           </div>
         </div>

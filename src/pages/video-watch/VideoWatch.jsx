@@ -1,83 +1,52 @@
 import './video-watch.css'
 
-import {useParams} from 'react-router-dom';
-import {useData} from '../../data-context'
-import {useAuth} from '../../auth-context'
-import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useData } from '../../providers/DataProvider'
+import { useAuth } from '../../providers/AuthProvider'
+import { useState, useEffect, useRef } from 'react';
 import { useAxios } from '../../useAxios';
-import {addToPlaylistVideos,removeFromPlaylistVideos} from '../../utils'
-import { UPDATE_USER_VIDEO } from '../../data-reducer';
+import {
+    addToPlaylistVideos,
+    removeFromPlaylistVideos,
+    getVideoDetails,
+    getUserPlaylist,
+    getUserPlaylistVideo,
+    isVideoPresentInPlaylistVideos
+} from '../../utils'
+import { UPDATE_USER_VIDEO } from '../../providers/data-reducer';
+import PlaylistModal from './components/playlist-modal/PlaylistModal'
 
-const getVideoDetails = (allUsers,videoId) =>{
-    for(const user of allUsers){        
-        const video = user.videos.find(video => video._id === videoId)
-        if(video){
-            return video;
-        }
-        else{
-            continue;
-        }
-    }    
-}
-
-const getVideoUser = (allUsers,videoId) => {
-    for(const user of allUsers){        
-        const video = user.videos.find(video => video._id === videoId)
-        if(video){
-            return user;
-        }
-        else{
-            continue;
-        }
-    }    
-}
 
 const getYouTubeId = (youtubeUrl) => {
     return youtubeUrl.split("?v=")[1];
 }
 
-const getUserPlaylist = (userPlaylists,playlistName,type) => {
-    return userPlaylists.find(playlist => {
-        return playlist.name === playlistName && playlist.type === type;
-    });
-}
-
-const getUserPlaylistVideo = (video,playlist) => {
-    return playlist.videos.find(playlistVideo => {
-        return playlistVideo.videoId === video._id;
-    })
-}
-
-const isVideoPresentInPlaylistVideos = (video,playlist) => {
-    return playlist.videos.find(playlistVideo => {
-        return playlistVideo.videoId === video._id;
-    })!==undefined;        
-}
-
-
 
 const VideoWatch = () => {
 
     const [isLikedLoading,setIsLikedLoading] = useState(false);
+    const [isWatchLaterLoading, setIsWatchLaterLoading] = useState(false);
+    const playlistModalRef = useRef(null);
 
     const {videoId} = useParams();       
-    const {dataState,dataDispatch,isInitialAppDataLoading}  = useData();
-    const {getData, postData, deleteData} = useAxios();
+    const {dataState,dataDispatch}  = useData();
+    const {postData, deleteData} = useAxios();
     console.log({dataState});
     const {loggedInUser} = useAuth();
-    const allUsers = dataState.allUsers;
+    const allVideos = dataState.allVideos;
     const userPlaylists = dataState.userPlaylists
-    const video = getVideoDetails(allUsers,videoId)    
+    const video = getVideoDetails(allVideos,videoId)    
 
 
     const addToLikedVideos = async () => { 
         setIsLikedLoading(true);
         await addToPlaylistVideos(loggedInUser,video,getUserPlaylist(userPlaylists,'Liked','default'),dataDispatch,postData); 
-        dataDispatch({type:UPDATE_USER_VIDEO, payload:{
-            user:getVideoUser(allUsers,videoId),
-            video:video,
+        const likes = video.likes + 1;
+        await postData(`/users/${video.user._id}/videos/${video._id}`,{likes })
+        dataDispatch({type:UPDATE_USER_VIDEO, payload:{            
+            video,
             key : 'likes',
-            value : video.likes + 1
+            value : likes
         }})
         setIsLikedLoading(false);    
     }
@@ -86,14 +55,50 @@ const VideoWatch = () => {
     const removeFromLikedVideos = async () => { 
         setIsLikedLoading(true);        
         await removeFromPlaylistVideos(loggedInUser,getUserPlaylistVideo(video,getUserPlaylist(userPlaylists,'Liked','default')),getUserPlaylist(userPlaylists,'Liked','default'),dataDispatch,deleteData)
-        dataDispatch({type:UPDATE_USER_VIDEO, payload:{
-            user:getVideoUser(allUsers,videoId),
-            video:video,
+        const likes = video.likes - 1;
+        await postData(`/users/${video.user._id}/videos/${video._id}`,{likes })
+        dataDispatch({type:UPDATE_USER_VIDEO, payload:{            
+            video,
             key : 'likes',
-            value : video.likes - 1
+            value : likes
         }})
         setIsLikedLoading(false);    
     }
+
+
+    const addToWatchLaterVideos = async() => {
+        setIsWatchLaterLoading(true);
+        await addToPlaylistVideos(loggedInUser,video,getUserPlaylist(userPlaylists,'Watch Later','default'),dataDispatch,postData); 
+        setIsWatchLaterLoading(false);
+    }
+
+    const removeFromWatchLaterVideos = async() => {
+        setIsWatchLaterLoading(true);
+        await removeFromPlaylistVideos(loggedInUser,getUserPlaylistVideo(video,getUserPlaylist(userPlaylists,'Watch Later','default')),getUserPlaylist(userPlaylists,'History','default'),dataDispatch,deleteData)
+        setIsWatchLaterLoading(false);
+    }
+
+    const togglePlaylistModal = () => {
+        playlistModalRef.current.classList.toggle('active')
+    }  
+
+
+    useEffect(() => {        
+        (async function(){
+            await postData(`/users/${video.user._id}/videos/${video._id}`,{views : video.views+1})
+            dataDispatch({type:UPDATE_USER_VIDEO, payload:{            
+                video,
+                key : 'views',
+                value : video.views + 1
+            }})
+        })()
+        if(loggedInUser){
+            (async function(){
+                await addToPlaylistVideos(loggedInUser,video,getUserPlaylist(userPlaylists,'History','default'),dataDispatch,postData);
+            })()
+        }      
+        // eslint-disable-next-line  
+    },[])
 
     
     return (
@@ -106,9 +111,7 @@ const VideoWatch = () => {
                 allowFullScreen></iframe>
             </div>        
             <div className="flex space-btw v-center mt-1">
-                <div className="text-size-sm">
-                    <p>View Count Coming Soon <br/> (Under Construction)</p>
-                </div>
+                <p>{video.views} Views</p>
                 <div className="flex flex-gap-sm">     
                     {
                         !loggedInUser &&
@@ -164,8 +167,84 @@ const VideoWatch = () => {
                             }
                         </button>
                     }
+
+
+
+                    {
+                        !loggedInUser &&
+                        <button 
+                            onClick={() => alert("Login Required")} 
+                            className="btn-solid secondary" disabled={isWatchLaterLoading}>
+                            {
+                                !isWatchLaterLoading &&
+                                <div>
+                                    <i className="fa fa-clock-o"></i>                                
+                                </div>
+                            }
+                            {
+                                isWatchLaterLoading &&
+                                <div className="small-spinner"></div>
+                            }
+                        </button>
+                    }               
+                    {
+                        loggedInUser && !isVideoPresentInPlaylistVideos(video,getUserPlaylist(userPlaylists,'Watch Later','default')) &&
+                        <button 
+                            onClick={() => addToWatchLaterVideos()} 
+                            className="btn-solid secondary" disabled={isWatchLaterLoading}>
+                            {
+                                !isWatchLaterLoading &&
+                                <div>
+                                    <i className="fa fa-clock-o"></i>                                     
+                                </div>
+                            }
+                            {
+                                isWatchLaterLoading &&
+                                <div className="small-spinner"></div>
+                            }
+                        </button>
+                    }
+                    {
+                        loggedInUser && isVideoPresentInPlaylistVideos(video,getUserPlaylist(userPlaylists,'Watch Later','default')) &&
+                        <button 
+                            onClick={() => removeFromWatchLaterVideos()} 
+                            className="btn-solid secondary" disabled={isWatchLaterLoading}>
+                            {
+                                !isWatchLaterLoading &&
+                                <div>
+                                    <i className="fa fa-clock-o text-primary"></i>                                     
+                                </div>
+                            }
+                            {
+                                isWatchLaterLoading &&
+                                <div className="small-spinner"></div>
+                            }
+                        </button>
+                    }
+
+
+                    {
+                        !loggedInUser &&
+                        <button onClick={() => alert("Please login to save video to your playlist.")} className="btn-solid secondary">
+                            <i className="fa fa-save text-size-1"></i>
+                        </button>           
+                    }
+                    {
+                        loggedInUser &&
+                        <button onClick={() => togglePlaylistModal()} className="btn-solid secondary">
+                            <i className="fa fa-save text-size-1"></i>
+                        </button>                               
+                    }           
                 </div>
             </div>
+
+            {
+                loggedInUser &&
+                <PlaylistModal 
+                togglePlaylistModal={togglePlaylistModal}
+                video={video}
+                ref={playlistModalRef}/>    
+            }
         </>
     )
 }
