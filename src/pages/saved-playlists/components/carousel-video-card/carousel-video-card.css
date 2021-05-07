@@ -1,0 +1,28 @@
+.carousel-video-card {
+    cursor: pointer;
+    width: 225px!important;
+    padding: 0.75rem;    
+}
+
+.carousel-video-card:hover {
+    background-color: var(--grey-200);
+}
+
+.card-body {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+}
+
+@media only screen and (min-width : 576px) {
+    .carousel-video-card {
+        width: 275px!important;        
+    }
+}
+
+@media only screen and (min-width : 768px) {
+    .carousel-video-card {
+        width: 325px!important;        
+    }
+}

@@ -1,0 +1,41 @@
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.navbar .toggle {
+    display: none;
+}
+
+@media all and (max-width: 768px) {
+    .navbar {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .navbar .nav-links {
+        width: auto;
+    }
+
+    .nav-links ul a {
+        width: auto;
+    }
+
+    .navbar .nav-links ul {
+        display: flex;
+    }
+
+    .nav-links {
+        display: block;
+    }
+
+}
+
+@media all and (max-width: 576px) {
+    .navbar .toggle {
+        position: static !important;
+        display: block !important;
+    }
+}

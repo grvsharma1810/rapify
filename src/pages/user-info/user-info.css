@@ -1,0 +1,9 @@
+.password-field {
+    position: relative !important;
+}
+
+.show-password-icon {
+    position: absolute !important;
+    top: 35px !important;
+    right: 10px !important;
+}
