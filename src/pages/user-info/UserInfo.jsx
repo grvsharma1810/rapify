@@ -1,17 +1,16 @@
 import './user-info.css'
 import {useState} from 'react'
 import {useAuth} from '../../providers/AuthProvider'
-import {useAxios} from '../../providers/AxiosProvider';
+import { updateUserService } from '../../services/updateUserService';
 
 const UserInfo = () => {
 
     const {loggedInUser} = useAuth();
     const [isEditing,setIsEditing] = useState(false);
     const [isLoading, setIsLoading] = useState(false);        
-    const [showPassword, setShowPassword] = useState(false);
+    // const [showPassword, setShowPassword] = useState(false);
     const [userUpdates,setUserUpdates] = useState(loggedInUser);
-    const {updateUserData} = useAuth();        
-    const {postData} = useAxios();
+    const {updateUserData} = useAuth();            
     
     const formSubmit = async(event) => {         
         event.preventDefault()
@@ -21,13 +20,9 @@ const UserInfo = () => {
         }
         else{            
             setIsLoading(true);
-            const response = await postData(`/users/${loggedInUser._id}`, userUpdates);
-            if (response.status === 400) {
-                alert(response.data.errorMessage)
-            } else {
-                const user = response.user;
-                updateUserData(user)
-            }
+            const response = await updateUserService(loggedInUser._id, userUpdates);            
+            const user = response.user;
+            updateUserData(user)     
             setIsLoading(false);
         }        
     }
@@ -76,7 +71,7 @@ const UserInfo = () => {
                             <span className="success-msg">Looks Good</span>
                         </p>                     
                     </div>   
-                    <div className="form-row">              
+                    {/* <div className="form-row">              
                         <p className="password-field form-field">
                             <label htmlFor="password">Password</label>                            
                             <input 
@@ -89,7 +84,7 @@ const UserInfo = () => {
                             <span className="error-msg">Please enter valid password</span>
                             <span className="success-msg">Looks Good</span>
                         </p>                        
-                    </div>                           
+                    </div>                            */}
                     <div>
                         {!isLoading && <button className="btn-solid primary" disabled={!isEditing}>Save</button>}
                         {isLoading && <button className="btn-solid secondary" disabled={!isEditing}>Saving...</button>}                        

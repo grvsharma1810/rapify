@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import { useData } from '../../providers/DataProvider'
 import { useAuth } from '../../providers/AuthProvider'
 import { useState, useEffect, useRef } from 'react';
-import { useAxios } from '../../providers/AxiosProvider';
 import {
     addToPlaylistVideos,
     removeFromPlaylistVideos,
@@ -15,6 +14,7 @@ import {
 } from '../../utils'
 import { UPDATE_USER_VIDEO } from '../../providers/data-reducer';
 import PlaylistModal from './components/playlist-modal/PlaylistModal'
+import { updateVideoService } from '../../services/updateVideoService';
 
 
 const getYouTubeId = (youtubeUrl) => {
@@ -29,8 +29,7 @@ const VideoWatch = () => {
     const playlistModalRef = useRef(null);
 
     const {videoId} = useParams();       
-    const {dataState,dataDispatch}  = useData();
-    const {postData, deleteData} = useAxios();
+    const {dataState,dataDispatch}  = useData();    
     console.log({dataState});
     const {loggedInUser} = useAuth();
     const allVideos = dataState.allVideos;
@@ -40,9 +39,9 @@ const VideoWatch = () => {
 
     const addToLikedVideos = async () => { 
         setIsLikedLoading(true);
-        await addToPlaylistVideos(loggedInUser,video,getUserPlaylist(userPlaylists,'Liked','default'),dataDispatch,postData); 
+        await addToPlaylistVideos(video,getUserPlaylist(userPlaylists,'Liked','default'),dataDispatch); 
         const likes = video.likes + 1;
-        await postData(`/users/${video.user._id}/videos/${video._id}`,{likes })
+        await updateVideoService(video._id,{likes})
         dataDispatch({type:UPDATE_USER_VIDEO, payload:{            
             video,
             key : 'likes',
@@ -54,9 +53,9 @@ const VideoWatch = () => {
     
     const removeFromLikedVideos = async () => { 
         setIsLikedLoading(true);        
-        await removeFromPlaylistVideos(loggedInUser,getUserPlaylistVideo(video,getUserPlaylist(userPlaylists,'Liked','default')),getUserPlaylist(userPlaylists,'Liked','default'),dataDispatch,deleteData)
+        await removeFromPlaylistVideos(getUserPlaylistVideo(video,getUserPlaylist(userPlaylists,'Liked','default')),getUserPlaylist(userPlaylists,'Liked','default'),dataDispatch)
         const likes = video.likes - 1;
-        await postData(`/users/${video.user._id}/videos/${video._id}`,{likes })
+        await updateVideoService(video._id,{likes })
         dataDispatch({type:UPDATE_USER_VIDEO, payload:{            
             video,
             key : 'likes',
@@ -68,13 +67,13 @@ const VideoWatch = () => {
 
     const addToWatchLaterVideos = async() => {
         setIsWatchLaterLoading(true);
-        await addToPlaylistVideos(loggedInUser,video,getUserPlaylist(userPlaylists,'Watch Later','default'),dataDispatch,postData); 
+        await addToPlaylistVideos(video,getUserPlaylist(userPlaylists,'Watch Later','default'),dataDispatch); 
         setIsWatchLaterLoading(false);
     }
 
     const removeFromWatchLaterVideos = async() => {
         setIsWatchLaterLoading(true);
-        await removeFromPlaylistVideos(loggedInUser,getUserPlaylistVideo(video,getUserPlaylist(userPlaylists,'Watch Later','default')),getUserPlaylist(userPlaylists,'History','default'),dataDispatch,deleteData)
+        await removeFromPlaylistVideos(getUserPlaylistVideo(video,getUserPlaylist(userPlaylists,'Watch Later','default')),getUserPlaylist(userPlaylists,'History','default'),dataDispatch)
         setIsWatchLaterLoading(false);
     }
 
@@ -85,7 +84,7 @@ const VideoWatch = () => {
 
     useEffect(() => {        
         (async function(){
-            await postData(`/users/${video.user._id}/videos/${video._id}`,{views : video.views+1})
+            await updateVideoService(video._id,{views : video.views+1})
             dataDispatch({type:UPDATE_USER_VIDEO, payload:{            
                 video,
                 key : 'views',
@@ -94,7 +93,7 @@ const VideoWatch = () => {
         })()
         if(loggedInUser){
             (async function(){
-                await addToPlaylistVideos(loggedInUser,video,getUserPlaylist(userPlaylists,'History','default'),dataDispatch,postData);
+                await addToPlaylistVideos(video,getUserPlaylist(userPlaylists,'History','default'),dataDispatch);
             })()
         }      
         // eslint-disable-next-line  
