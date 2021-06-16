@@ -2,9 +2,9 @@ import { createContext, useState, useContext, useEffect } from 'react';
 import { useData } from './DataProvider'
 import { SET_USER_PLAYLIST_DATA } from './data-reducer'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { signupWithCredentials } from '../services/signupWithCredentials';
-import { loginWithCredentials } from '../services/loginWithCredentials';
-import { fetchPlaylists } from '../services/fetchPlaylists';
+import { signupWithCredentialsService } from '../services/signupWithCredentialsService';
+import { loginWithCredentialsService } from '../services/loginWithCredentialsService';
+import { fetchPlaylistsService } from '../services/fetchPlaylistsService';
 import { setUpAuthHeaderForServiceCalls } from '../utils/setUpAuthHeaderForServiceCalls';
 import { setUpAuthExceptionHandler } from '../utils/setUpAuthExceptionHandler';
 import { loginWithGoogleService } from '../services/loginWithGoogleService';
@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
 
 
     async function signup(userCredentials) {
-        const data = await signupWithCredentials(userCredentials);
+        const data = await signupWithCredentialsService(userCredentials);
         if (data.success) {
             navigate("/login");
         }
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
     async function getAndSetUserData(responseData) {
         setUpAuthHeaderForServiceCalls(responseData.token);
         setUpAuthExceptionHandler(logout, navigate);
-        const { playlists } = await fetchPlaylists();
+        const { playlists } = await fetchPlaylistsService();
         console.log({ playlists })
         dataDispatch({ type: SET_USER_PLAYLIST_DATA, payload: { playlists } })
         setLoggedInUser(responseData.user);
@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     async function login(email, password) {
-        const responseData = await loginWithCredentials(email, password);
+        const responseData = await loginWithCredentialsService(email, password);
         localStorage.setItem("user", JSON.stringify({ user: responseData.user, token: responseData.token }));
         getAndSetUserData(responseData);
     }

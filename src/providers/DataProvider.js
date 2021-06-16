@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useReducer, useState } from 'react'
 import { dataReducer, SET_ALL_VIDEOS_DATA } from './data-reducer'
-import { fetchVideos } from "../services/fetchVideos"
+import { fetchVideosService } from "../services/fetchVideosService"
 
 const DataContext = createContext({})
 
@@ -15,7 +15,7 @@ export const DataProvider = ({ children }) => {
 
     useEffect(() => {
         (async function () {
-            const { videos } = await fetchVideos();
+            const { videos } = await fetchVideosService();
             dispatch({ type: SET_ALL_VIDEOS_DATA, payload: { videos } })
             setIsInitialAppDataLoading(false);
         })()

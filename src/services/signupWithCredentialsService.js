@@ -1,10 +1,9 @@
 import axios from "axios";
-import { API_URL } from "../config";
+import { API_URL } from "../config"
 
-export const fetchVideos = async () => {
+export const signupWithCredentialsService = async (userCredentials) => {
     try {
-        const response = await axios.get(`${API_URL}/videos`);
-        console.log(response);
+        const response = await axios.post(`${API_URL}/signup`,userCredentials)
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error)) {

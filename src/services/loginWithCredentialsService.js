@@ -1,10 +1,9 @@
 import axios from "axios";
-import { API_URL } from "../config";
+import { API_URL } from "../config"
 
-export const fetchPlaylists = async () => {
+export const loginWithCredentialsService = async (email,password) => {
     try {
-        const response = await axios.get(`${API_URL}/playlists`);
-        console.log(response);
+        const response = await axios.post(`${API_URL}/login`,{email,password})
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error)) {

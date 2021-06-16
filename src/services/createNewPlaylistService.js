@@ -1,7 +1,7 @@
 import axios from "axios"
 import { API_URL } from "../config";
 
-export const createNewPlaylist = async (requestBody) => {
+export const createNewPlaylistService = async (requestBody) => {
     try {
         const response = await axios.post(`${API_URL}/playlists`, requestBody);
         return response.data;

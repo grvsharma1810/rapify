@@ -12,7 +12,7 @@ import {
 	getUserPlaylistVideo,
 } from "../../../../utils";
 import { ADD_TO_PLAYLIST } from "../../../../providers/data-reducer";
-import { createNewPlaylist } from "../../../../services/createNewPlaylist";
+import { createNewPlaylistService } from "../../../../services/createNewPlaylistService";
 
 const PlylistModal = ({ togglePlaylistModal, video }, ref) => {	
 	const { dataState, dataDispatch } = useData();
@@ -37,7 +37,7 @@ const PlylistModal = ({ togglePlaylistModal, video }, ref) => {
 			return;
 		}
 		setIsAddingToPlaylist(true);
-		const responseData = await createNewPlaylist({
+		const responseData = await createNewPlaylistService({
 			name: event.target[0].value,
 			type: "user-created",
 		});
